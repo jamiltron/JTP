@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "game.h"
-#include "types.h"
+#include "jtp_game.h"
+#include "jtp_types.h"
 
 int main() {
   WindowInit(800, 600, "JTP");
