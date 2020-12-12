@@ -1,4 +1,0 @@
-clang
-%c -std=c11
--I./inc
--I/usr/local/include
