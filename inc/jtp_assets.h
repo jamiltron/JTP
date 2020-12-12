@@ -3,7 +3,6 @@
 #include "jtp_shader_program.h"
 
 const char* ReadFile(const char *path);
-void LoadContent(void);
 /* TODO still not sure about storing shaders by name */
 ShaderProgram* LoadShader(const char *name, const char *vertPath,
                           const char *fragPath);
