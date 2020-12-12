@@ -48,13 +48,6 @@ void WindowClear(Color color) {
   glClear(GL_COLOR_BUFFER_BIT);
 }
 
-/* TODO move this to a timer struct */
-float GetTime() {
-  float ct = glfwGetTime();
-  TimerUpdate(&game.timer);
-  return game.timer.deltaTime;
-}
-
 void BeginDrawing() {}
 
 void EndDrawing() {
