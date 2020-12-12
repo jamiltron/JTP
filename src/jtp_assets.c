@@ -1,7 +1,7 @@
 #include "jtp_assets.h"
 #include "jtp_constants.h"
 #include "jtp_shader_program.h"
-#include "jtp_types.h"
+#include "jtp_math.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>

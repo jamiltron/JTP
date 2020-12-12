@@ -1,8 +1,8 @@
 #include "jtp_constants.h"
 #include "jtp_shader_program.h"
-#include "jtp_types.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <glad/glad.h>
 
 ShaderProgram* ShaderProgramNew(const char *vertCode, const char *fragCode) {
   ShaderProgram* program = malloc(sizeof(ShaderProgram));
@@ -43,7 +43,18 @@ uint ShaderCompile(const char* shaderCode, GLenum type) {
   return shader;
 }
 
+void ShaderProgramUse(ShaderProgram* this) {
+  glUseProgram(this->id);
+}
+
 void ShaderDelete(ShaderProgram* program) {
   glDeleteProgram(program->id);
   free(program);
+}
+
+void ShaderSetVector4f(ShaderProgram* this, const char *name, Vec4 *vec, bool useProgram) {
+  if (useProgram) {
+    ShaderProgramUse(this);
+  }
+  glUniform4f(glGetUniformLocation(this->id, name), vec->x, vec->y, vec->z, vec->w);
 }
