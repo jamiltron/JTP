@@ -1,6 +1,6 @@
 #ifndef JTP_GAME_H
 #define JTP_GAME_H
-#include "types.h"
+#include "jtp_types.h"
 #include <stdbool.h>
 
 void WindowInit(uint width, uint height, const char* title);

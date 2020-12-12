@@ -1,5 +1,5 @@
-#include "game.h"
-#include "timer.h"
+#include "jtp_game.h"
+#include "jtp_timer.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
