@@ -1,4 +1,4 @@
-#include "timer.h"
+#include "jtp_timer.h"
 #include <GLFW/glfw3.h>
 
 void TimerUpdate(Timer* timer) {
