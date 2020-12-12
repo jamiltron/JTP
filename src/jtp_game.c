@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct {
   GLFWwindow* window;
@@ -65,8 +66,12 @@ void ProcessInput() {
   _ProcessInput(game.window);
 }
 
-void WindowClose() {
-  glfwTerminate();
+void WindowClose() { glfwTerminate(); }
+
+Size WindowSize() {
+  int width, height;
+  glfwGetWindowSize(game.window, &width, &height);
+  return (Size) { .width = width, .height = height };
 }
 
 void _FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
