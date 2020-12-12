@@ -8,6 +8,7 @@ typedef struct ShaderProgram {
   uint id;
 } ShaderProgram;
 
+ShaderProgram* ShaderProgramNew(const char *vertCode, const char* fragCode);
 uint ShaderCompile(const char *shaderCode, GLenum type);
 void ShaderDelete(ShaderProgram* program);
 
