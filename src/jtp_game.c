@@ -1,4 +1,6 @@
 #include "jtp_game.h"
+#include "jtp_assets.h"
+#include "jtp_shader_program.h"
 #include "jtp_timer.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -8,6 +10,7 @@
 typedef struct {
   GLFWwindow* window;
   Timer timer;
+  ShaderProgram* defaultShader;
 } _Game;
 
 static void _FramebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -37,6 +40,7 @@ void WindowInit(uint width, uint height, const char* title) {
     printf("Failed to initialize GLAD\n");
     exit(1);
   }
+  game.defaultShader = LoadShader("default", "../res/shaders/default.vert", "../res/shaders/default.frag");
 }
 
 bool WindowShouldClose() {
