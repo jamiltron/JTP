@@ -18,7 +18,7 @@ This is also heavily based on the excellent:
 
 ## Dependencies
 
-This uses [GLFW](https://www.glfw.org/) and [Glad](https://glad.dav1d.de/)
+This uses [OpenGL 3.3](https://www.opengl.org/), [GLFW](https://www.glfw.org/) and [Glad](https://glad.dav1d.de/)
 
 ## Licenses
 
