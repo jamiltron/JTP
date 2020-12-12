@@ -11,6 +11,7 @@ typedef struct {
   GLFWwindow* window;
   Timer timer;
   ShaderProgram* defaultShader;
+  Mat4x4 ortho;
 } _Game;
 
 static void _FramebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -40,7 +41,10 @@ void WindowInit(uint width, uint height, const char* title) {
     printf("Failed to initialize GLAD\n");
     exit(1);
   }
+
+  /* TODO don't do this */
   game.defaultShader = LoadShader("default", "../res/shaders/default.vert", "../res/shaders/default.frag");
+  game.ortho = Ortho(0, width, 0, height, -1, 1);
 }
 
 bool WindowShouldClose() {
@@ -74,6 +78,10 @@ Size WindowSize() {
   int width, height;
   glfwGetWindowSize(game.window, &width, &height);
   return (Size) { .width = width, .height = height };
+}
+
+Mat4x4 WindowOrtho() {
+  return game.ortho;
 }
 
 void _FramebufferSizeCallback(GLFWwindow* window, int width, int height) {

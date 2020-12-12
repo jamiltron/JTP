@@ -1,4 +1,6 @@
 #include "jtp_assets.h"
+#include "jtp_game.h"
+#include "jtp_math.h"
 #include "jtp_shapes2d.h"
 #include "jtp_assets.h"
 #include "jtp_shader_program.h"
@@ -6,23 +8,19 @@
 
 /* This currently doesn't do what it says, I'm just getting something on screen. */
 void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
-  /* TODO: don't do this */
-  float x1 = (2.0 / (800 - 0)) * p1.x;
-  float y1 = (2.0 / (600 - 0)) * p1.y;
-
-  float x2 = (2.0 / (800 - 0)) * p2.x;
-  float y2 = (2.0 / (600 - 0)) * p2.y;
-
-  float x3 = (2.0 / (800 - 0)) * p3.x;
-  float y3 = (2.0 / (600 - 0)) * p3.y;
+  /* TODO: don't do this? */
+  Mat4x4 ortho = WindowOrtho();
+  Vec2 t1 = MultMat4x4ByVec2(ortho, p1);
+  Vec2 t2 = MultMat4x4ByVec2(ortho, p2);
+  Vec2 t3 = MultMat4x4ByVec2(ortho, p3);
 
   float vertices[] = {
-    // position
-    x1, y1,
-    x2, y2,
-    x3, y3
+    t1.x, t1.y,
+    t2.x, t2.y,
+    t3.x, t3.y
   };
 
+  /* TODO think about how we can cache these */
   uint vbo, vao;
   glGenVertexArrays(1, &vao);
   glGenBuffers(1, &vbo);
