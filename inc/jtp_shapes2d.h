@@ -3,7 +3,9 @@
 #include "jtp_math.h"
 #include "jtp_types.h"
 
-void DrawTriangle(Vec2 p1, Vec2 p2, Vec3 p3, Color color);
+/* Currently not batched */
+void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color);
+/* Currently not batched */
 void DrawRectangle(Rect rect, Color color);
 
 #endif
