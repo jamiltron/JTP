@@ -37,8 +37,8 @@ uint ShaderCompile(const char* shaderCode, GLenum type) {
   glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
   if (!success) {
     glGetShaderInfoLog(shader, INFO_LOG_LEN, NULL, infoLog);
+    printf("Error compiling shader: %s\n", infoLog);
   }
-  printf("Error compiling shader: %s\n", infoLog);
 
   return shader;
 }
