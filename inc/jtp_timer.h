@@ -5,6 +5,6 @@ typedef struct Timer {
   float deltaTime, lastTime;
 } Timer;
 
-void Timer_Update(Timer* timer);
+void TimerUpdate(Timer* timer);
 
 #endif
