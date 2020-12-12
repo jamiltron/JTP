@@ -83,5 +83,5 @@ void UnloadShader(const char *name) {
 }
 
 static bool IsEntryOpen(uint i) {
-  return _shaders[i].name != NULL && _shaders[i].program != NULL;
+  return _shaders[i].name == NULL && _shaders[i].program == NULL;
 }
