@@ -59,6 +59,11 @@ void ProcessInput() {
   _ProcessInput(game.window);
 }
 
+float GetTime(void) {
+  TimerUpdate(&game.timer);
+  return game.timer.deltaTime;
+}
+
 void WindowClose() { glfwTerminate(); }
 
 Size WindowSize() {
