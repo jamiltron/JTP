@@ -63,6 +63,11 @@ void ShaderSetMatrix4(ShaderProgram* this, const char* name, Mat4x4 *matrix, boo
   if (useProgram) {
     ShaderProgramUse(this);
   }
+  float m[16] = { matrix->x0, matrix->y0, matrix->z0, matrix->w0,
+    matrix->x1, matrix->y1, matrix->z1, matrix->w1,
+    matrix->x2, matrix->y2, matrix->z2, matrix->w2,
+    matrix->x3, matrix->y3, matrix->z3, matrix->w3,
+  };
 
-  glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, matrix);
+  glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, &m[0]);
 }
