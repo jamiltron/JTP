@@ -20,7 +20,10 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
     /* t1.x, t1.y, */
     /* t2.x, t2.y, */
     /* t3.x, t3.y */
-    0.0f, 1.0f,
+    1.0f, 1.0f,
+    -1.0f, -1.0f,
+    -1.0f, 1.0f,
+    1.0f, 1.0f,
     -1.0f, -1.0f,
     1.0f, -1.0f
   };
@@ -47,16 +50,16 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   if (def != NULL) {
     //model = ScaleMat4x4(model, (Vec4) { 10.0f, 10.0f, 1.0f, 1.0f});
     Mat4x4 model = {
-      .x0 = 10.0f, .x1 = 0, .x2 = 0, .x3 = 400.0f,
-      .y0 = 0, .y1 = 10.0f, .y2 = 0, .y3 = 300.0f,
-      .z0 = 0, .z1 = 0, .z2 = 1, .z3= 0,
-      .w0 = 0, .w1 = 0, .w2 = 0, .w3 = 1
+      .x0 = 100.0f, .x1 = 0,      .x2 = 0,    .x3 = 400.0f,
+      .y0 = 0,      .y1 = 100.0f, .y2 = 0,    .y3 = 300.0f,
+      .z0 = 0,      .z1 = 0,      .z2 = 1.0f, .z3= 0,
+      .w0 = 0,      .w1 = 0,      .w2 = 0,    .w3 = 1.0f
     };
     glUseProgram(def->id);
     ShaderSetMatrix4(def, "projection", &ortho, false);
     ShaderSetMatrix4(def, "model", &model, false);
     ShaderSetVector4f(def, "color", &color, false);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
   }
 
   glBindVertexArray(0);
