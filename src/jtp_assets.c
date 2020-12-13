@@ -21,7 +21,7 @@ static bool IsEntryOpen(uint i);
 const char *ReadFile(const char* path) {
   FILE *file = NULL;
 #ifdef _WIN32
-  errno_t err = fopen_s(file, path, "r");
+  errno_t err = fopen_s(&file, path, "rb");
   if (err != EXIT_SUCCESS) {
     printf("Error loading file %s\n", path);
     return NULL;
@@ -30,6 +30,7 @@ const char *ReadFile(const char* path) {
   file = fopen(path, "r");
   if (file == NULL) {
     printf("Error loading file: %s\n", path);
+    return NULL;
   }
 #endif
 
