@@ -1,13 +1,17 @@
 cmake_minimum_required (VERSION 3.18.4)
 
 project(jtp)
-
+set(NAME "jtp")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 find_package(GLFW3 REQUIRED)
 message(STATUS "Found GLFW3 in ${GLFW3_INCLUDE_DIR}")
+file(GLOB SOURCE "src/*.c")
+add_executable(jtp ${SOURCE})
+set_property(TARGET jtp PROPERTY C_STANDARD 11)
+
 
 if(WIN32)
   set(LIBS glfw3 opengl32)
@@ -34,12 +38,22 @@ endif(WIN32)
 
 add_library(GLAD "src/glad.c")
 set(LIBS ${LIBS} GLAD)
+target_link_libraries(jtp ${LIBS})
 
 include_directories(
   ${CMAKE_SOURCE_DIR}/inc
   ${CMAKE_SOURCE_DIR}/dep)
-file(GLOB SOURCE "src/*.c")
-set(NAME "jtp")
-add_executable(jtp ${SOURCE})
-target_link_libraries(jtp ${LIBS})
-set_property(TARGET jtp PROPERTY C_STANDARD 11)
+file(GLOB SHADERS "res/shaders/*.vert"
+                  "res/shaders/*.frag"
+                  "res/shaders/*.geom")
+foreach(SHADER ${SHADERS})
+  if(WIN32)
+      add_custom_command(TARGET ${NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SHADER} $<TARGET_FILE_DIR:${NAME}>)
+  elseif(UNIX AND NOT APPLE)
+      file(COPY ${SHADER} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+  elseif(APPLE)
+      # create symbolic link for *.vs *.fs *.gs
+      get_filename_component(SHADERNAME ${SHADER} NAME)
+      makeLink(${SHADER} ${CMAKE_CURRENT_BINARY_DIR} ${NAME})
+  endif(WIN32)
+endforeach(SHADER)
