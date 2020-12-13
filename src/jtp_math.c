@@ -1,4 +1,5 @@
 #include "jtp_math.h"
+#include <stdio.h>
 
 Mat4x4 Ortho(double left, double right, double bottom, double top, double near, double far) {
   float x = (float)(right - left);
@@ -18,12 +19,12 @@ Mat4x4 Ortho(double left, double right, double bottom, double top, double near, 
 
   m.x2 = 0;
   m.y2 = 0;
-  m.z2 = 2.0f / z;
+  m.z2 = -2.0f / z;
   m.w2 = 0;
 
-  m.x3 = (left + right) / x;
-  m.y3 = (top + bottom) / y;
-  m.z3 = (far + near) / z;
+  m.x3 = -(left + right) / x;
+  m.y3 = -(top + bottom) / y;
+  m.z3 = -(far + near) / z;
   m.w3 = 1.0f;
 
   return m;
@@ -99,4 +100,8 @@ Mat4x4 GetScaleMatrix(Vec4 vec) {
   res.z2 = vec.z;
   res.w3 = vec.w;
   return res;
+}
+
+void PrintMat4x4(Mat4x4 mat) {
+
 }

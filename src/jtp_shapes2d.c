@@ -26,7 +26,7 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   };
 
 
-  Mat4x4 model = Mat4(1.0f);
+  //Mat4x4 model = Mat4(1.0f);
 
   /* TODO think about how we can cache these */
   uint vbo, vao;
@@ -45,7 +45,13 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   /* TODO don't do this */
   ShaderProgram* def = GetShader("default");
   if (def != NULL) {
-    model = ScaleMat4x4(model, (Vec4) { 400.0f, 400.0f, 1.0f, 1.0f});
+    //model = ScaleMat4x4(model, (Vec4) { 10.0f, 10.0f, 1.0f, 1.0f});
+    Mat4x4 model = {
+      .x0 = 10.0f, .x1 = 0, .x2 = 0, .x3 = 400.0f,
+      .y0 = 0, .y1 = 10.0f, .y2 = 0, .y3 = 300.0f,
+      .z0 = 0, .z1 = 0, .z2 = 1, .z3= 0,
+      .w0 = 0, .w1 = 0, .w2 = 0, .w3 = 1
+    };
     glUseProgram(def->id);
     ShaderSetMatrix4(def, "projection", &ortho, false);
     ShaderSetMatrix4(def, "model", &model, false);

@@ -2,6 +2,7 @@
 #include "jtp_assets.h"
 #include "jtp_shader_program.h"
 #include "jtp_timer.h"
+#include <GL/gl.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
@@ -34,17 +35,20 @@ void WindowInit(uint width, uint height, const char* title) {
     glfwTerminate();
     exit(1);
   }
+  //glViewport(0, 0, 800, 600);
+  //glViewport(0, 0, 800, 600);
   glfwMakeContextCurrent(game.window);
   glfwSetFramebufferSizeCallback(game.window, _FramebufferSizeCallback);
-
   if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
     printf("Failed to initialize GLAD\n");
     exit(1);
   }
 
+  glViewport(0, 0, 800, 600);
+
   /* TODO don't do this */
   game.defaultShader = LoadShader("default", "../res/shaders/default.vert", "../res/shaders/default.frag");
-  game.ortho = Ortho(0, width, 0, height, -1, 1);
+  game.ortho = Ortho(0.0, 800.0, 600.0, 0.0, -1.0, 1.0);
 }
 
 bool WindowShouldClose() {
@@ -85,7 +89,7 @@ Mat4x4 WindowOrtho() {
 }
 
 void _FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
-  glViewport(0, 0, width, height);
+  glViewport(0, 0, 800, 600);
 }
 
 void _ProcessInput(GLFWwindow* window) {
