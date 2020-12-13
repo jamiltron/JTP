@@ -13,9 +13,12 @@ int main() {
     BeginDrawing();
     WindowClear((Color)
                 { .r = 0.91f, .g = 0.45f, .b = 0.32f, .a = 1.0f });
-    DrawTriangle((Vec2){ .x = 0, .y = 150},
+    /*    DrawTriangle((Vec2){ .x = 0, .y = 150},
                  (Vec2){ .x = -200, .y = -150},
-                 (Vec2) { .x = 200, .y = -150}, (Color) { .r = 0.0f, .g = 0.0f, .b = 1.0f, .a = 1.0f});
+                 (Vec2) { .x = 200, .y = -150},
+                 (Color) { .r = 0.0f, .g = 0.0f, .b = 1.0f, .a = 1.0f});*/
+    DrawRectangle((Rect) { .x = 0, .y = 0, .width = 200, .height = 200},
+      (Color){ .r = 0.0f, .g = 0.0f, .b = 1.0f, .a = 1.0f});
     EndDrawing();
   }
 
