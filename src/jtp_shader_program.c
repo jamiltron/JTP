@@ -58,3 +58,11 @@ void ShaderSetVector4f(ShaderProgram* this, const char *name, Vec4 *vec, bool us
   }
   glUniform4f(glGetUniformLocation(this->id, name), vec->x, vec->y, vec->z, vec->w);
 }
+
+void ShaderSetMatrix4(ShaderProgram* this, const char* name, Mat4x4 *matrix, bool useProgram) {
+  if (useProgram) {
+    ShaderProgramUse(this);
+  }
+
+  glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, matrix);
+}

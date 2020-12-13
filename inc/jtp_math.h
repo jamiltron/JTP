@@ -34,10 +34,16 @@ typedef struct Mat4x4 {
   float w0, w1, w2, w3;
 } Mat4x4;
 
-Mat4x4 Ortho(double left, double right, double bottom, double top, double near, double far);
+Mat4x4 Ortho(double left, double right, double bottom, double top, double near,
+             double far);
+Mat4x4 Mat4(float);
+const float* Mat4Cols(Mat4x4 mat);
 
 Vec2 MultMat4x4ByVec2(Mat4x4 mat, Vec2 vec);
 Vec3 MultMat4x4ByVec3(Mat4x4 mat, Vec3 vec);
 Vec4 MultMat4x4ByVec4(Mat4x4 mat, Vec4 vec);
+Mat4x4 MultMat4Mat4(Mat4x4 m0, Mat4x4 m1);
+Mat4x4 ScaleMat4x4(Mat4x4 mat, Vec4 vec);
+Mat4x4 GetScaleMatrix(Vec4 vec);
 
 #endif

@@ -6,6 +6,7 @@
 #include "jtp_shader_program.h"
 #include <GL/gl.h>
 #include <glad/glad.h>
+#include <stdio.h>
 
 /* This currently doesn't do what it says, I'm just getting something on screen. */
 void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
@@ -16,10 +17,16 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   Vec2 t3 = MultMat4x4ByVec2(ortho, p3);
 
   float vertices[] = {
-    t1.x, t1.y,
-    t2.x, t2.y,
-    t3.x, t3.y
+    /* t1.x, t1.y, */
+    /* t2.x, t2.y, */
+    /* t3.x, t3.y */
+    0.0f, 1.0f,
+    -1.0f, -1.0f,
+    1.0f, -1.0f
   };
+
+
+  Mat4x4 model = Mat4(1.0f);
 
   /* TODO think about how we can cache these */
   uint vbo, vao;
@@ -38,7 +45,11 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   /* TODO don't do this */
   ShaderProgram* def = GetShader("default");
   if (def != NULL) {
-    ShaderSetVector4f(def, "color", &color, true);
+    model = ScaleMat4x4(model, (Vec4) { 400.0f, 400.0f, 1.0f, 1.0f});
+    glUseProgram(def->id);
+    ShaderSetMatrix4(def, "projection", &ortho, false);
+    ShaderSetMatrix4(def, "model", &model, false);
+    ShaderSetVector4f(def, "color", &color, false);
     glDrawArrays(GL_TRIANGLES, 0, 3);
   }
 
@@ -52,6 +63,7 @@ void DrawRectangle(Rect rect, Color color) {
   float top = rect.y + rect.height / 2.0f;
 
   Mat4x4 ortho = WindowOrtho();
+  Mat4x4 model = Mat4(1.0f);
 
   Vec2 t1 = MultMat4x4ByVec2(ortho, (Vec2) { .x = right, .y = top });
   Vec2 t2 = MultMat4x4ByVec2(ortho, (Vec2) { .x = left, .y = top });
@@ -87,6 +99,12 @@ void DrawRectangle(Rect rect, Color color) {
 
   ShaderProgram* def = GetShader("default");
   if (def != NULL) {
+    float o[16] = { ortho.x0, ortho.x1, ortho.x2, ortho.x3,
+    ortho.y0, ortho.y1, ortho.y2, ortho.y3,
+    ortho.z0, ortho.z1, ortho.z2, ortho.z3,
+    ortho.w0, ortho.w1, ortho.w2, ortho.w3 };
+    ShaderSetMatrix4(def, "projection", &ortho, false);
+    ShaderSetMatrix4(def, "model", &model, false);
     ShaderSetVector4f(def, "color", &color, true);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
   }

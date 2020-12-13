@@ -12,6 +12,7 @@ typedef struct ShaderProgram {
 ShaderProgram* ShaderProgramNew(const char *vertCode, const char* fragCode);
 uint ShaderCompile(const char *shaderCode, GLenum type);
 void ShaderDelete(ShaderProgram *program);
-void ShaderSetVector4f(ShaderProgram *this, const char* name, Vec4* value, bool useShader);
+void ShaderSetVector4f(ShaderProgram *this, const char *name, Vec4 *value, bool useShader);
+void ShaderSetMatrix4(ShaderProgram* this, const char* name, Mat4x4 *matrix, bool useShader);
 
 #endif

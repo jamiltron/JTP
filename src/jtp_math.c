@@ -51,3 +51,52 @@ Vec4 MultMat4x4ByVec4(Mat4x4 mat, Vec4 vec) {
 
   return res;
 }
+
+Mat4x4 Mat4(float diagonal) {
+  Mat4x4 mat = { 0 };
+  mat.x0 = diagonal;
+  mat.y1 = diagonal;
+  mat.z2 = diagonal;
+  mat.w3 = diagonal;
+
+  return mat;
+}
+
+Mat4x4 MultMat4Mat4(Mat4x4 m0, Mat4x4 m1) {
+  Mat4x4 res = { 0 };
+
+  res.x0 = m0.x0 * m1.x0 + m0.x1 * m1.y0 + m0.x2 * m1.z0 + m0.x3 * m1.w0;
+  res.x1 = (m0.x0 * m1.x1) + (m0.x1 * m1.y1) + (m0.x2 * m1.z1) + (m0.x3 * m1.w1);
+  res.x2 = (m0.x0 * m1.x2) + (m0.x1 * m1.y2) + m0.x2 * m1.z2 + m0.x3 * m1.w2;
+  res.x3 = (m0.x0 * m1.x3) + (m0.x1 * m1.y3) + m0.x2 * m1.z3 + m0.x3 * m1.w3;
+
+  res.y0 = m0.y0 * m1.x0 + m0.y1 * m1.y0 + m0.y2 * m1.z0 + m0.y3 * m1.w0;
+  res.y1 = m0.y0 * m1.x1 + m0.y1 * m1.y1 + m0.y2 * m1.z1 + m0.y3 * m1.w1;
+  res.y2 = m0.y0 * m1.x2 + m0.y1 * m1.y2 + m0.y2 * m1.z2 + m0.y3 * m1.w2;
+  res.y3 = m0.y0 * m1.x3 + m0.y1 * m1.y3 + m0.y2 * m1.z3 + m0.y3 * m1.w3;
+
+  res.z0 = m0.z0 * m1.x0 + m0.z1 * m1.y0 + m0.z2 * m1.z0 + m0.z3 * m1.w0;
+  res.z1 = m0.z0 * m1.x1 + m0.z1 * m1.y1 + m0.z2 * m1.z1 + m0.z3 * m1.w1;
+  res.z2 = m0.z0 * m1.x2 + m0.z1 * m1.y2 + m0.z2 * m1.z2 + m0.z3 * m1.w2;
+  res.z3 = m0.z0 * m1.x3 + m0.z1 * m1.y3 + m0.z2 * m1.z3 + m0.z3 * m1.w3;
+
+  res.w0 = m0.w0 * m1.x0 + m0.w1 * m1.y0 + m0.w2 * m1.z0 + m0.w3 * m1.w0;
+  res.w1 = m0.w0 * m1.x1 + m0.w1 * m1.y1 + m0.w2 * m1.z1 + m0.w3 * m1.w1;
+  res.w2 = m0.w0 * m1.x2 + m0.w1 * m1.y2 + m0.w2 * m1.z2 + m0.w3 * m1.w2;
+  res.w3 = m0.w0 * m1.x3 + m0.w1 * m1.y3 + m0.w2 * m1.z3 + m0.w3 * m1.w3;
+
+  return res;
+}
+
+Mat4x4 ScaleMat4x4(Mat4x4 mat, Vec4 vec) {
+  return MultMat4Mat4(mat, GetScaleMatrix(vec));
+}
+
+Mat4x4 GetScaleMatrix(Vec4 vec) {
+  Mat4x4 res = { 0 };
+  res.x0 = vec.x;
+  res.y1 = vec.y;
+  res.z2 = vec.z;
+  res.w3 = vec.w;
+  return res;
+}
