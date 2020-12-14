@@ -74,7 +74,10 @@ float GetTime(void) {
   return game.timer.deltaTime;
 }
 
-void WindowClose() { glfwTerminate(); }
+void WindowClose() {
+  glDeleteProgram(game.defaultShader->id);
+  glfwTerminate();
+}
 
 Size WindowSize() {
   int width, height;
