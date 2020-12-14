@@ -6,26 +6,12 @@ Mat4 Ortho(double left, double right, double bottom, double top, double near, do
   float y = (float)(top - bottom);
   float z = (float)(far - near);
 
-  Mat4 m = { 0 };
-  m.x0 = 2.0f / x;
-  m.y0 = 0;
-  m.z0 = 0;
-  m.w0 = 0;
-
-  m.x1 = 0;
-  m.y1 = 2.0f / y;
-  m.z1 = 0;
-  m.w1 = 0;
-
-  m.x2 = 0;
-  m.y2 = 0;
-  m.z2 = -2.0f / z;
-  m.w2 = 0;
-
-  m.x3 = -(left + right) / x;
-  m.y3 = -(top + bottom) / y;
-  m.z3 = -(far + near) / z;
-  m.w3 = 1.0f;
+  Mat4 m = {
+    m.x0 = 2.0f / x, m.x1 = 0, m.x2 = 0, m.x3 = -(left + right) / x,
+    m.y0 = 0, m.y1 = 2.0f / y, m.y2 = 0, m.y3 = -(top + bottom) / y,
+    m.z0 = 0, m.z1 = 0, m.z2 = -2.0f / z,   m.z3 = -(far + near) / z,
+    m.w0 = 0, m.w1 = 0, m.w2 = 0, m.w3 = 1.0f
+  };
 
   return m;
 }
@@ -112,7 +98,7 @@ Mat4 GetTranslateMatrix(Vec3 vec) {
 }
 
 Mat4 TranslateMat4x4(Mat4 mat, Vec3 vec) {
-  Mat4 res = { 
+  Mat4 res = {
     mat.x0, mat.x1, mat.x2, vec.x,
     mat.y0, mat.y1, mat.y2, vec.y,
     mat.z0, mat.z1, mat.z2, vec.z,
