@@ -3,6 +3,7 @@ cmake_minimum_required (VERSION 3.18.4)
 project(jtp)
 set(NAME "jtp")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
