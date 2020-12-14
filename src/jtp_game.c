@@ -12,7 +12,7 @@ typedef struct {
   GLFWwindow* window;
   Timer timer;
   ShaderProgram* defaultShader;
-  Mat4x4 ortho;
+  Mat4 ortho;
 } _Game;
 
 static void _FramebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -82,7 +82,7 @@ Size WindowSize() {
   return (Size) { .width = width, .height = height };
 }
 
-Mat4x4 WindowOrtho() {
+Mat4 WindowOrtho() {
   return game.ortho;
 }
 

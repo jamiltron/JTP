@@ -62,7 +62,6 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
 /* TODO cache stuff */
 void DrawRectangle(Rect rect, Color color) {
   Mat4x4 ortho = WindowOrtho();
-  Mat4x4 model = Mat4(1.0f);
 
   float vertices[] = {
     1.0f,  1.0f,  // top right
@@ -93,7 +92,7 @@ void DrawRectangle(Rect rect, Color color) {
 
   ShaderProgram* def = GetShader("default");
   if (def != NULL) {
-    Mat4x4 model = Mat4(1.0f);
+    Mat4 model = Mat4New(1.0f);
     model = TranslateMat4x4(model, (Vec3) {.x = rect.x, .y = rect.y, .z = 0});
     model = ScaleMat4x4(model, (Vec4) { .x = rect.width, .y = rect.height, .z = 1.0, .w = 1});
     ShaderSetMatrix4(def, "projection", &ortho, false);

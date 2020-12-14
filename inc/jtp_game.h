@@ -12,6 +12,6 @@ void BeginDrawing(void);
 void EndDrawing(void);
 float GetTime(void);
 Size WindowSize(void);
-Mat4x4 WindowOrtho(void);
+Mat4 WindowOrtho(void);
 
 #endif
