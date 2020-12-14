@@ -45,6 +45,8 @@ Vec4 MultMat4x4ByVec4(Mat4x4 mat, Vec4 vec);
 Mat4x4 MultMat4Mat4(Mat4x4 m0, Mat4x4 m1);
 Mat4x4 ScaleMat4x4(Mat4x4 mat, Vec4 vec);
 Mat4x4 GetScaleMatrix(Vec4 vec);
+Mat4x4 TranslateMat4x4(Mat4x4 mat, Vec3 vec);
+Mat4x4 GetTranslateMatrix(Vec3 vec);
 void PrintMat4x4(Mat4x4 mat);
 
 #endif

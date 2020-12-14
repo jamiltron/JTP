@@ -11,28 +11,22 @@
 /* This currently doesn't do what it says, I'm just getting something on screen. */
 void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   /* TODO: don't do this? */
-  Mat4x4 ortho = WindowOrtho();
+  /* Mat4x4 ortho = WindowOrtho();
   Vec2 t1 = MultMat4x4ByVec2(ortho, p1);
   Vec2 t2 = MultMat4x4ByVec2(ortho, p2);
   Vec2 t3 = MultMat4x4ByVec2(ortho, p3);
 
   float vertices[] = {
-    /* t1.x, t1.y, */
-    /* t2.x, t2.y, */
-    /* t3.x, t3.y */
-    1.0f, 1.0f,
-    -1.0f, -1.0f,
-    -1.0f, 1.0f,
-    1.0f, 1.0f,
-    -1.0f, -1.0f,
-    1.0f, -1.0f
+    t1.x, t1.y,
+    t2.x, t2.y,
+    t3.x, t3.y
   };
 
 
   //Mat4x4 model = Mat4(1.0f);
 
   /* TODO think about how we can cache these */
-  uint vbo, vao;
+  /* uint vbo, vao;
   glGenVertexArrays(1, &vao);
   glGenBuffers(1, &vbo);
 
@@ -43,10 +37,10 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
 
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ARRAY_BUFFER, 0); */
 
   /* TODO don't do this */
-  ShaderProgram* def = GetShader("default");
+ /*  ShaderProgram* def = GetShader("default");
   if (def != NULL) {
     //model = ScaleMat4x4(model, (Vec4) { 10.0f, 10.0f, 1.0f, 1.0f});
     Mat4x4 model = {
@@ -62,28 +56,19 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
     glDrawArrays(GL_TRIANGLES, 0, 6);
   }
 
-  glBindVertexArray(0);
+  glBindVertexArray(0); */
 }
 
+/* TODO cache stuff */
 void DrawRectangle(Rect rect, Color color) {
-  float left = rect.x - rect.width / 2.0f;
-  float bottom = rect.y - rect.height  / 2.0f;
-  float right = rect.x + rect.width / 2.0f;
-  float top = rect.y + rect.height / 2.0f;
-
   Mat4x4 ortho = WindowOrtho();
   Mat4x4 model = Mat4(1.0f);
 
-  Vec2 t1 = MultMat4x4ByVec2(ortho, (Vec2) { .x = right, .y = top });
-  Vec2 t2 = MultMat4x4ByVec2(ortho, (Vec2) { .x = left, .y = top });
-  Vec2 t3 = MultMat4x4ByVec2(ortho, (Vec2) { .x = left, .y = bottom });
-  Vec2 t4 = MultMat4x4ByVec2(ortho, (Vec2) { .x = right, .y = bottom });
-
   float vertices[] = {
-    t1.x,  t1.y,  // top right
-    t4.x, t4.y,   // bottom right
-    t3.x, t3.y,   // bottom left
-    t2.x,  t2.y,  // top left
+    1.0f,  1.0f,  // top right
+    1.0f, -1.0f,  // bottom right
+    -1.0f, -1.0f, // bottom left
+    -1.0f,  1.0f, // top left
   };
 
   unsigned int indices[] = {
@@ -108,10 +93,9 @@ void DrawRectangle(Rect rect, Color color) {
 
   ShaderProgram* def = GetShader("default");
   if (def != NULL) {
-    float o[16] = { ortho.x0, ortho.x1, ortho.x2, ortho.x3,
-    ortho.y0, ortho.y1, ortho.y2, ortho.y3,
-    ortho.z0, ortho.z1, ortho.z2, ortho.z3,
-    ortho.w0, ortho.w1, ortho.w2, ortho.w3 };
+    Mat4x4 model = Mat4(1.0f);
+    model = TranslateMat4x4(model, (Vec3) {.x = rect.x, .y = rect.y, .z = 0});
+    model = ScaleMat4x4(model, (Vec4) { .x = rect.width, .y = rect.height, .z = 1.0, .w = 1});
     ShaderSetMatrix4(def, "projection", &ortho, false);
     ShaderSetMatrix4(def, "model", &model, false);
     ShaderSetVector4f(def, "color", &color, true);

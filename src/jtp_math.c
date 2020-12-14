@@ -67,9 +67,9 @@ Mat4x4 MultMat4Mat4(Mat4x4 m0, Mat4x4 m1) {
   Mat4x4 res = { 0 };
 
   res.x0 = m0.x0 * m1.x0 + m0.x1 * m1.y0 + m0.x2 * m1.z0 + m0.x3 * m1.w0;
-  res.x1 = (m0.x0 * m1.x1) + (m0.x1 * m1.y1) + (m0.x2 * m1.z1) + (m0.x3 * m1.w1);
-  res.x2 = (m0.x0 * m1.x2) + (m0.x1 * m1.y2) + m0.x2 * m1.z2 + m0.x3 * m1.w2;
-  res.x3 = (m0.x0 * m1.x3) + (m0.x1 * m1.y3) + m0.x2 * m1.z3 + m0.x3 * m1.w3;
+  res.x1 = m0.x0 * m1.x1 + m0.x1 * m1.y1 + m0.x2 * m1.z1 + m0.x3 * m1.w1;
+  res.x2 = m0.x0 * m1.x2 + m0.x1 * m1.y2 + m0.x2 * m1.z2 + m0.x3 * m1.w2;
+  res.x3 = m0.x0 * m1.x3 + m0.x1 * m1.y3 + m0.x2 * m1.z3 + m0.x3 * m1.w3;
 
   res.y0 = m0.y0 * m1.x0 + m0.y1 * m1.y0 + m0.y2 * m1.z0 + m0.y3 * m1.w0;
   res.y1 = m0.y0 * m1.x1 + m0.y1 * m1.y1 + m0.y2 * m1.z1 + m0.y3 * m1.w1;
@@ -99,6 +99,25 @@ Mat4x4 GetScaleMatrix(Vec4 vec) {
   res.y1 = vec.y;
   res.z2 = vec.z;
   res.w3 = vec.w;
+  return res;
+}
+
+Mat4x4 GetTranslateMatrix(Vec3 vec) {
+  Mat4x4 res = {0};
+  res.x3 = vec.x;
+  res.y3 = vec.y;
+  res.z3 = vec.z;
+  res.w3 = 1.0f;
+  return res;
+}
+
+Mat4x4 TranslateMat4x4(Mat4x4 mat, Vec3 vec) {
+  Mat4x4 res = { 
+    mat.x0, mat.x1, mat.x2, vec.x,
+    mat.y0, mat.y1, mat.y2, vec.y,
+    mat.z0, mat.z1, mat.z2, vec.z,
+    mat.w0, mat.w1, mat.w2, 1.0f,
+  };
   return res;
 }
 
