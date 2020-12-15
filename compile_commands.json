@@ -2,6 +2,11 @@
 {
   "directory": "/home/jamiltron/Workspace/JTP/build",
   "command": "/usr/bin/cc  -I/home/jamiltron/Workspace/JTP/inc -I/home/jamiltron/Workspace/JTP/dep  -o CMakeFiles/GLAD.dir/src/glad.c.o -c /home/jamiltron/Workspace/JTP/src/glad.c",
+  "file": "/home/jamiltron/Workspace/JTP/src/jtp_nini.c"
+},
+{
+  "directory": "/home/jamiltron/Workspace/JTP/build",
+  "command": "/usr/bin/cc  -I/home/jamiltron/Workspace/JTP/inc -I/home/jamiltron/Workspace/JTP/dep  -o CMakeFiles/GLAD.dir/src/glad.c.o -c /home/jamiltron/Workspace/JTP/src/glad.c",
   "file": "/home/jamiltron/Workspace/JTP/src/jtp_math.c"
 },  
 {

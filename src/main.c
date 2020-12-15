@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include "jtp_game.h"
 #include "jtp_math.h"
+#include "jtp_nini.h"
 #include "jtp_shapes2d.h"
 
 int main() {
-  WindowInit(800, 600, "JTP");
+  /*WindowInit(800, 600, "JTP");
 
   while(!WindowShouldClose()) {
     ProcessInput();
@@ -19,6 +20,17 @@ int main() {
     EndDrawing();
   }
 
-  WindowClose();
+  WindowClose();*/
+  //NiniReadFile("test.nini", "test");
+  NiniEntry entry = ParseNiniEntry("size=212");
+  printf("key: %s, ", entry.key);
+  if (entry.value.entryType == Integer) {
+    printf(" value: %i\n", entry.value.value.integer);
+  } else if (entry.value.entryType == String) {
+    printf(" value: %s\n", entry.value.value.string);
+  } else {
+    printf(" value: None\n");
+  }
+
   return 0;
 }

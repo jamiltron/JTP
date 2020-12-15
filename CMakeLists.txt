@@ -46,7 +46,8 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/dep)
 file(GLOB SHADERS "res/shaders/*.vert"
                   "res/shaders/*.frag"
-                  "res/shaders/*.geom")
+                  "res/shaders/*.geom"
+                  "res/config/*.nini") # not an actual shader I need to rewrite this
 foreach(SHADER ${SHADERS})
   if(WIN32)
       add_custom_command(TARGET ${NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SHADER} $<TARGET_FILE_DIR:${NAME}>)
