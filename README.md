@@ -2,7 +2,7 @@
 
 (Justin's Trash Pile)
 
-This is a collection of C files I use in a bunch of hobby projects. It's _kind of_ a game engine, with no real attempt to serve anyone but me, but I wanted to check this in so I can keep it in sync between laptops. At the moment this is intended for me alone, I just didn't want to shove it into a private repo because I already have enough code rotting in those, gotta air this stuff out.
+This is a collection of C files I use in a bunch of hobby projects. It's _kind of_ a game engine, with no real attempt to serve anyone but me, but I wanted to check this in so I can keep it in sync between laptops. I didn't want to shove it into a private repo because I already have enough code rotting in those, gotta air this stuff out.
 
 This doesn't really work at the moment, as I'm copying junk over from other quarter-finished game repos, random tutorials, copy-pasting raw code from Stackoverflow, suggestions from my cat, etc., but at some point I'll throw up build instructions when I think its partially usable.
 
