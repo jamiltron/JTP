@@ -24,7 +24,7 @@ char* StringLeftTrim(const char* string, const char* chaff) {
   return new;
 }
 
-char* StringRightTrim(char* string, const char* chaff) {
+char* StringRightTrim(const char* string, const char* chaff) {
   if (string == NULL || chaff == NULL) {
     return NULL;
   }
