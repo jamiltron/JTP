@@ -3,8 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* TODO error check and be safe and what not */
 char* StringLeftTrim(const char* string, const char* chaff) {
+  if (string == NULL || chaff == NULL) {
+    return NULL;
+  }
+
   size_t length = strlen(string);
 
   int i;
@@ -22,6 +25,9 @@ char* StringLeftTrim(const char* string, const char* chaff) {
 }
 
 char* StringRightTrim(char* string, const char* chaff) {
+  if (string == NULL || chaff == NULL) {
+    return NULL;
+  }
   size_t length = strlen(string);
 
   int i;
@@ -38,6 +44,10 @@ char* StringRightTrim(char* string, const char* chaff) {
 }
 
 bool StringContainsCharacter(const char* string, char character) {
+  if (string == NULL || character == NULL) {
+    return false;
+  }
+
   for (const char *p = string; *p != '\0'; ++p) {
     if (*p == character) {
       return true;
@@ -47,6 +57,10 @@ bool StringContainsCharacter(const char* string, char character) {
 }
 
 bool StringContainsAnyCharacter(const char* string, const char* characters) {
+  if (string == NULL || characters == NULL) {
+    return false;
+  }
+
   for (const char *p = string; *p != '\0'; ++p) {
     for (const char *c = characters; *c != '\0'; ++c) {
       if (strcmp(p, c) == 0) {

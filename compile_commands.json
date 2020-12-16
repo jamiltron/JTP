@@ -48,5 +48,10 @@
   "directory": "/home/jamiltron/Workspace/JTP/build",
   "command": "/usr/bin/cc  -I/home/jamiltron/Workspace/JTP/inc -I/home/jamiltron/Workspace/JTP/dep -std=gnu11 -o CMakeFiles/jtp.dir/src/main.c.o -c /home/jamiltron/Workspace/JTP/src/main.c",
   "file": "/home/jamiltron/Workspace/JTP/src/main.c"
+},
+{
+  "directory": "/home/jamiltron/Workspace/JTP/build",
+  "command": "/usr/bin/cc  -I/home/jamiltron/Workspace/JTP/inc -I/home/jamiltron/Workspace/JTP/dep -std=gnu11 -o CMakeFiles/jtp.dir/src/main.c.o -c /home/jamiltron/Workspace/JTP/src/main.c",
+  "file": "/home/jamiltron/Workspace/JTP/src/jtp_string.c"
 }
 ]
