@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "jtp_assets.h"
 #include "jtp_game.h"
 #include "jtp_math.h"
 #include "jtp_nini.h"
@@ -22,7 +23,7 @@ int main() {
 
   WindowClose();*/
   //NiniReadFile("test.nini", "test");
-  NiniEntry entry = ParseNiniEntry("size=212");
+  /* NiniEntry entry = ParseNiniEntry("size=212");
   printf("key: %s, ", entry.key);
   if (entry.value.entryType == Integer) {
     printf(" value: %i\n", entry.value.value.integer);
@@ -30,7 +31,23 @@ int main() {
     printf(" value: %s\n", entry.value.value.string);
   } else {
     printf(" value: None\n");
-  }
+  }*/
 
+  char *source = ReadFile("test.nini");
+  int tokenNum = 0;
+  NiniToken* tokens = NiniTokenize(source, &tokenNum);
+
+  printf("tokenNum: %i\n", tokenNum);
+
+  for (int i = 0; i < tokenNum; ++i) {
+    NiniToken token = tokens[i];
+    if (token.type == NiniTableToken) {
+      printf("[%s]\n", token.value);
+    } else if (token.type == NiniIdentifierToken) {
+      printf("(%s)\n", token.value);
+    } else if (token.type == NiniEqualsToken) {
+      printf("=\n");
+    }
+  }
   return 0;
 }

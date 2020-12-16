@@ -112,7 +112,7 @@ void _InitRectRenderer() {
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-  glEnableVertexAttribArray(0); 
+  glEnableVertexAttribArray(0);
   ShaderSetMatrix4(_rectRenderer.shaderProgram, "projection", &ortho, true);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
