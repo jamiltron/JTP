@@ -1,10 +1,12 @@
 #ifndef JTP_NINI_H
 #define JTP_NINI_H
+#include "jtp_math.h"
 
 typedef enum NiniTokenType {
   NiniTableToken,
   NiniIdentifierToken,
-  NiniEqualsToken
+  NiniEqualsToken,
+  NiniEndToken
 } NiniTokenType;
 
 typedef struct NiniToken {
@@ -58,6 +60,6 @@ NiniTable ParseNiniTable(char* token);
 NiniEntry ParseNiniEntry(char* token);
 NiniValue ParseNiniValue(char* token);
 
-NiniToken* NiniTokenize(const char* source, int* count);
+NiniToken* NiniTokenize(const char* source);
 
 #endif

@@ -93,9 +93,9 @@ int CountFollowingEntries(char* table) {
   return 0;
 }
 
-NiniToken* NiniTokenize(const char* source, int* count) {
+NiniToken* NiniTokenize(const char* source) {
   NiniToken tokens[1024];
-  *count = 0;
+  int count = 0;
 
   char *head;
   char *lookahead;
@@ -109,11 +109,11 @@ NiniToken* NiniTokenize(const char* source, int* count) {
       }
 
       int diff = lookahead - head;
+      printf("allocing %i + 1 null\n", diff - 1);
       char* name = malloc(sizeof(char) * diff);
       strncpy(name, head+1, diff - 1);
       name[diff - 1] = '\0';
-      tokens[*count] = (NiniToken) { .type = NiniTableToken, .value = name };
-      *count += 1;
+      tokens[count++] = (NiniToken) { .type = NiniTableToken, .value = name };
       head = lookahead + 1;
     }
 
@@ -125,28 +125,27 @@ NiniToken* NiniTokenize(const char* source, int* count) {
       }
 
       int diff = lookahead - head;
-      char* name = malloc(sizeof(char) * diff + 1);
+      char* name = malloc(sizeof(char) * (diff + 1));
       strncpy(name, head, diff);
       name[diff] = '\0';
-      tokens[*count] = (NiniToken) { .type = NiniIdentifierToken, .value = name };
-      *count += 1;
+      tokens[count++] = (NiniToken) { .type = NiniIdentifierToken, .value = name };
       head = lookahead-1;
     }
 
     if (*head == '=') {
-      tokens[*count] = (NiniToken) {.type = NiniEqualsToken, .value = '='};
-      *count += 1;
+      tokens[count++] = (NiniToken) {.type = NiniEqualsToken, .value = NULL };
     }
 
     head++;
   }
 
-  NiniToken* result = malloc(sizeof(NiniToken) * (*count));
-  memset(result, *count, 0);
+  NiniToken* result = malloc(sizeof(NiniToken) * (count + 1));
+  //memset(result, *count, 0);
 
-  for (int i = 0; i < *count; ++i) {
+  for (int i = 0; i < count; ++i) {
     result[i] = tokens[i];
   }
+  result[count] = (NiniToken) { .type = NiniEndToken, .value = NULL };
 
   return result;
 }

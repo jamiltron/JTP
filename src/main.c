@@ -33,13 +33,12 @@ int main() {
     printf(" value: None\n");
   }*/
 
-  char *source = ReadFile("test.nini");
-  int tokenNum = 0;
-  NiniToken* tokens = NiniTokenize(source, &tokenNum);
+  const char *source = ReadFile("test.nini");
+  NiniToken* tokens = NiniTokenize(source);
+  free(source);
 
-  printf("tokenNum: %i\n", tokenNum);
-
-  for (int i = 0; i < tokenNum; ++i) {
+  int i = 0;
+  while (tokens[i].type != NiniEndToken) {
     NiniToken token = tokens[i];
     if (token.type == NiniTableToken) {
       printf("[%s]\n", token.value);
@@ -48,6 +47,12 @@ int main() {
     } else if (token.type == NiniEqualsToken) {
       printf("=\n");
     }
+    if (token.value) {
+      free(token.value);
+    }
+    ++i;
   }
+  free(tokens);
+
   return 0;
 }
