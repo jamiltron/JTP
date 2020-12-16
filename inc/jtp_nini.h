@@ -39,6 +39,7 @@ void NiniTableSetValue(NiniTable *table, const char* name, NiniValue value);
 void NiniDestroy(Nini *table);
 
 char* ParseNiniTableName(char* token);
+NiniTable ParseNiniTable(char* token);
 NiniEntry ParseNiniEntry(char* token);
 NiniValue ParseNiniValue(char* token);
 
