@@ -70,3 +70,22 @@ bool StringContainsAnyCharacter(const char* string, const char* characters) {
   }
   return false;
 }
+
+bool StringIsInteger(const char* string) {
+  if (!string) {
+    return false;
+  }
+
+  // check that the first digit isn't led with a 0
+  if (*string < '1' || *string > '9') {
+    return false;
+  }
+
+  // check the rest
+  for (const char* c = string+1; *c != '\0'; ++c) {
+    if (!isdigit((unsigned int) *c)) {
+      return false;
+    }
+  }
+  return true;
+}
