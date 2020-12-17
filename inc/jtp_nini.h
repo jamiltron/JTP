@@ -17,7 +17,8 @@ typedef struct NiniToken {
 typedef enum NiniEntryType {
   None,
   Integer,
-  String
+  String,
+  Bool
 } NiniEntryType;
 
 typedef struct NiniValue {
@@ -25,24 +26,25 @@ typedef struct NiniValue {
   union {
     int integer;
     char* string;
+    bool boolean;
   } value;
 } NiniValue;
 
 typedef struct NiniEntry {
   char* key;
-  NiniValue value;
+  NiniValue* value;
 } NiniEntry;
 
 typedef struct NiniTable {
   const char* name;
-  NiniEntry entries;
   uint count;
+  NiniEntry** entries;
 } NiniTable;
 
 typedef struct Nini {
   const char* name;
-  NiniTable* tables;
   uint count;
+  NiniTable** tables;
 } Nini;
 
 
@@ -61,5 +63,7 @@ NiniEntry ParseNiniEntry(char* token);
 NiniValue ParseNiniValue(char* token);
 
 NiniToken* NiniTokenize(const char* source);
+Nini* NiniNew(NiniToken* tokens);
+void NiniFree(Nini* nini);
 
 #endif

@@ -5,94 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-int CountFollowingEntries(char* table);
-
-Nini* NiniReadFile(const char* path, const char* name) {
-  Nini *nini = malloc(sizeof(NiniTable));
-  nini->name = name;
-  nini->tables = NULL;
-
-  char* str = ReadFile(path);
-  char *tablePtr, *token;
-
-#ifdef _WIN32
-  token = strtok_s(str, "\t\n ", &tablePtr);
-  if (token[0] == '[') { // we are in table parsing land
-    ParseNiniTableName(token);
-  }
-   while (token) {
-     token = strtok_s(NULL, "\t\n ", &tablePtr);
-   }
-#else
-#endif
-
-  return nini;
-}
-
-Nini* NiniCreate(const char* source, const char* name) {
-  Nini* nini = malloc(sizeof(Nini));
-  nini->name = name;
-  nini->tables = NULL;
-  nini->count = 1;
-
-  char* tablePtr;
-
-  for (const char* s = source; s != '\0'; ++s) {
-    if (*s == '[') {
-      tablePtr = s;
-
-    }
-  }
-
-  return nini;
-}
-
-NiniEntry ParseNiniEntry(char* token) {
-  char* sep;
-  char* lhs;
-  char* rhs;
-
-  sep = strchr(token, '=');
-  if (sep) {
-    size_t lhsLen = sep - token;
-    size_t rhsLen = strlen(token) - (lhsLen + 1);
-
-    lhs = malloc(lhsLen);
-    strncpy(lhs, token, lhsLen);
-    lhs[lhsLen] = '\0';
-
-    rhs = malloc(rhsLen);
-    strncpy(rhs, token+lhsLen+1, rhsLen);
-    rhs[rhsLen] = '\0';
-
-    return (NiniEntry) { .key = lhs, .value = ParseNiniValue(rhs)};
-  }
-  return (NiniEntry) {.key = NULL, .value = (NiniValue) { .entryType = None }};
-}
-
-NiniValue ParseNiniValue(char* token) {
-  if (isalpha((unsigned char) token[0])) {
-    return (NiniValue) { .entryType = String, .value.string = token };
-  } else if (isdigit((unsigned char) token[0])) {
-    int i = atoi(token);
-    return (NiniValue) { .entryType = Integer, .value.integer = i};
-  } else {
-    return (NiniValue) { .entryType = None };
-  }
-}
-
-char* ParseNiniTableName(char* token) {
-  size_t len = strlen(token);
-  char* tableName = malloc(sizeof(char) * len - 3);
-  strncpy(tableName, token+1, len-3);
-  tableName[len-3] = '\0';
-  return tableName;
-}
-
-int CountFollowingEntries(char* table) {
-  return 0;
-}
-
 NiniToken* NiniTokenize(const char* source) {
   NiniToken tokens[1024];
   int count = 0;
@@ -109,7 +21,6 @@ NiniToken* NiniTokenize(const char* source) {
       }
 
       int diff = lookahead - head;
-      printf("allocing %i + 1 null\n", diff - 1);
       char* name = malloc(sizeof(char) * diff);
       strncpy(name, head+1, diff - 1);
       name[diff - 1] = '\0';
@@ -140,12 +51,109 @@ NiniToken* NiniTokenize(const char* source) {
   }
 
   NiniToken* result = malloc(sizeof(NiniToken) * (count + 1));
-  //memset(result, *count, 0);
-
-  for (int i = 0; i < count; ++i) {
+    for (int i = 0; i < count; ++i) {
     result[i] = tokens[i];
   }
   result[count] = (NiniToken) { .type = NiniEndToken, .value = NULL };
 
   return result;
 }
+
+Nini* NiniNew(NiniToken* tokens) {
+  // count number of tables
+  uint numTables = 0;
+  for (NiniToken* t = tokens; t->type != NiniEndToken; ++t) {
+    if (t->type == NiniTableToken) {
+      ++numTables;
+    }
+  }
+
+  Nini* nini = malloc(sizeof(Nini));
+
+  nini->name = "TODO: pass this in";
+  nini->count = numTables;
+  nini->tables = malloc(sizeof(NiniTable*) * numTables);
+  NiniToken* tablePtr = tokens;
+  for (uint i = 0; i < numTables; ++i) {
+    NiniToken test = *tablePtr;
+
+    // find each table and get their entries
+    while (tablePtr->type != NiniTableToken) {
+      ++tablePtr;
+    }
+    char* tableName = (*tablePtr).value;
+
+    // count the number of entries
+    uint numEntries = 0;
+    NiniToken* entriesPtr = tablePtr+1;
+    while (entriesPtr && entriesPtr->type != NiniEndToken && entriesPtr->type != NiniTableToken) {
+      // todo we should do some better error checking/debugging
+      if (entriesPtr->type == NiniIdentifierToken) {
+        // double check that the entry is indeed well-formed, otherwise throw a tantrum
+        if ((entriesPtr+1)->type == NiniEqualsToken && (entriesPtr+2)->type == NiniIdentifierToken) {
+          numEntries += 1;
+          entriesPtr += 3;
+          continue;
+        } else {
+          printf("Error reading Nini file (TODO: pass in file name so we have context\n");
+          exit(1);
+        }
+      } else {
+        ++entriesPtr;
+      }
+      ++entriesPtr;
+    }
+
+    NiniTable *table = malloc(sizeof(NiniTable));
+    table->name = tableName;
+    table->count = numEntries;
+    table->entries = malloc(sizeof(NiniEntry*) * numEntries);
+
+    entriesPtr = tablePtr+1;
+    for (uint j = 0; j < numEntries; j++) {
+      char* key = entriesPtr[j*3].value;
+      char* strVal = entriesPtr[j*3+2].value;
+      printf("key: %s, val: %s\n", key, strVal);
+
+      NiniValue *value = malloc(sizeof(NiniValue));
+
+      if (StringIsInteger(strVal)) {
+        value->value.integer = atoi(strVal);
+        value->entryType = Integer;
+      } else if (strcmp(strVal, "true") == 0) {
+        value->value.boolean = true;
+        value->entryType = Bool;
+      } else if (strcmp(strVal, "false") == 0) {
+        value->value.boolean = false;
+        value->entryType = Bool;
+      } else {
+        value->value.string = strVal;
+        value->entryType = String;
+      }
+
+      NiniEntry *entry = malloc(sizeof(NiniEntry));
+      entry->key = key;
+      entry->value = value;
+      table->entries[j] = entry;
+    }
+
+    // set the table
+    nini->tables[i] = table;
+  }
+
+  return nini;
+}
+
+void NiniFree(Nini* nini) {
+  for (int i = 0; i < nini->count; ++i) {
+    NiniTable* table = nini->tables[i];
+    for (int j = 0; j < table->count; ++j) {
+      NiniEntry *entry = table->entries[j];
+      free(entry->value);
+      free(entry);
+    }
+    free(table);
+  }
+  free(nini);
+}
+

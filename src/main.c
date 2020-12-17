@@ -4,6 +4,7 @@
 #include "jtp_math.h"
 #include "jtp_nini.h"
 #include "jtp_shapes2d.h"
+#include "jtp_string.h"
 
 int main() {
   /*WindowInit(800, 600, "JTP");
@@ -35,7 +36,7 @@ int main() {
 
   const char *source = ReadFile("test.nini");
   NiniToken* tokens = NiniTokenize(source);
-  free(source);
+  /* free(source);
 
   int i = 0;
   while (tokens[i].type != NiniEndToken) {
@@ -51,8 +52,23 @@ int main() {
       free(token.value);
     }
     ++i;
+  } */
+
+  Nini* nini = NiniNew(tokens);
+  printf("\n\n******\n");
+  printf("nini.name: %s, table.count: %i\n", nini->name, nini->count);
+  for (uint t = 0; t < nini->count; ++t) {
+    NiniTable* table = nini->tables[t];
+    printf("table.name: %s, entries.count: %i\n", table->name, table->count);
+
+    for (uint e = 0; e < table->count; ++e) {
+      NiniEntry* entry = table->entries[e];
+      printf("entry.name: %s\n", entry->key);
+    }
   }
+  printf("******\n");
   free(tokens);
+  NiniFree(nini);
 
   return 0;
 }
