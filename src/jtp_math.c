@@ -107,6 +107,8 @@ Mat4 TranslateMat4x4(Mat4 mat, Vec3 vec) {
   return res;
 }
 
-void PrintMat4x4(Mat4 mat) {
+void PrintMat4x4(Mat4 mat) {}
 
+void Vec2Print(Vec2* vec) {
+  printf("(%f, %f)\n", vec->x, vec->y);
 }

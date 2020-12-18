@@ -36,8 +36,7 @@ typedef struct Mat4x4 {
 
 typedef Mat4x4 Mat4;
 
-Mat4 Ortho(double left, double right, double bottom, double top, double near,
-             double far);
+Mat4 Ortho(double left, double right, double bottom, double top, double near, double far);
 Mat4 Mat4New(float diagonal);
 const float* Mat4Cols(Mat4 mat);
 
@@ -49,6 +48,8 @@ Mat4 ScaleMat4x4(Mat4 mat, Vec4 vec);
 Mat4 GetScaleMatrix(Vec4 vec);
 Mat4 TranslateMat4x4(Mat4 mat, Vec3 vec);
 Mat4 GetTranslateMatrix(Vec3 vec);
+
 void PrintMat4x4(Mat4 mat);
+void Vec2Print(Vec2* vec);
 
 #endif

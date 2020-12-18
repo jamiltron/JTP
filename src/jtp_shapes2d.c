@@ -12,23 +12,29 @@ static void _InitRectRenderer(void);
 
 /* This currently doesn't do what it says, I'm just getting something on screen. */
 void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
-  /* TODO: don't do this? */
-  /* Mat4x4 ortho = WindowOrtho();
-  Vec2 t1 = MultMat4x4ByVec2(ortho, p1);
-  Vec2 t2 = MultMat4x4ByVec2(ortho, p2);
-  Vec2 t3 = MultMat4x4ByVec2(ortho, p3);
+  Mat4x4 ortho = WindowOrtho();
+  Size windowSize = WindowSize();
+  Vec2 t1 = { .x = (p1.x / (windowSize.width / 2.0f)) - 1.0f, .y = (p1.y / (windowSize.height / 2.0f)) -1.0f };
+  Vec2 t2 = { .x = (p2.x / (windowSize.width / 2.0f)) - 1.0f, .y = (p2.y / (windowSize.height / 2.0f)) - 1.0f };
+  Vec2 t3 = { .x = (p3.x / (windowSize.width / 2.0f)) - 1.0f, .y = (p3.y / (windowSize.height / 2.0f)) - 1.0f };
 
+  Vec2Print(&t1);
+  Vec2Print(&t2);
+  Vec2Print(&t3);
+  printf("*****\n");
   float vertices[] = {
     t1.x, t1.y,
     t2.x, t2.y,
     t3.x, t3.y
   };
 
+  Vec2 center = (Vec2) { .x = (p1.x + p2.x + p3.x) / 3.0f, (p1.y + p2.y + p3.y) / 3.0f };
 
-  //Mat4x4 model = Mat4(1.0f);
+
+  Mat4 model = Mat4New(1.0f);
 
   /* TODO think about how we can cache these */
-  /* uint vbo, vao;
+  uint vbo, vao;
   glGenVertexArrays(1, &vao);
   glGenBuffers(1, &vbo);
 
@@ -39,26 +45,28 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
 
-  glBindBuffer(GL_ARRAY_BUFFER, 0); */
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   /* TODO don't do this */
- /*  ShaderProgram* def = GetShader("default");
+  ShaderProgram* def = GetShader("default");
   if (def != NULL) {
-    //model = ScaleMat4x4(model, (Vec4) { 10.0f, 10.0f, 1.0f, 1.0f});
-    Mat4x4 model = {
-      .x0 = 100.0f, .x1 = 0,      .x2 = 0,    .x3 = 400.0f,
-      .y0 = 0,      .y1 = 100.0f, .y2 = 0,    .y3 = 300.0f,
-      .z0 = 0,      .z1 = 0,      .z2 = 1.0f, .z3= 0,
-      .w0 = 0,      .w1 = 0,      .w2 = 0,    .w3 = 1.0f
-    };
+    // //model = ScaleMat4x4(model, (Vec4) { 10.0f, 10.0f, 1.0f, 1.0f});
+    // Mat4x4 model = {
+    //   .x0 = 100.0f, .x1 = 0,      .x2 = 0,    .x3 = 400.0f,
+    //   .y0 = 0,      .y1 = 100.0f, .y2 = 0,    .y3 = 300.0f,
+    //   .z0 = 0,      .z1 = 0,      .z2 = 1.0f, .z3= 0,
+    //   .w0 = 0,      .w1 = 0,      .w2 = 0,    .w3 = 1.0f
+    // };
     glUseProgram(def->id);
+    //model = TranslateMat4x4(model, (Vec3) {.x = center.x, .y = center.y, .z = 0});
+    //model = ScaleMat4x4(model, (Vec4) { .x = 200.0f, .y = 200.0f, .z = 1.0, .w = 1});
     ShaderSetMatrix4(def, "projection", &ortho, false);
     ShaderSetMatrix4(def, "model", &model, false);
     ShaderSetVector4f(def, "color", &color, false);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
   }
 
-  glBindVertexArray(0); */
+  glBindVertexArray(0);
 }
 
 typedef struct RectRenderer {
