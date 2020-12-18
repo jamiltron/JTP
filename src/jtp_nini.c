@@ -59,6 +59,11 @@ NiniToken* NiniTokenize(const char* source) {
   return result;
 }
 
+/* TODO this really isn't optimized, its basically a double-pass but could be done in one pass,
+ * particularly if we store some meta info when we tokenize, this would all be pretty simple.
+ * We could also allocate all of the memory after this first pass and just assign pointers to
+ * the correct positions.
+ */
 Nini* NiniNew(NiniToken* tokens, const char* name) {
   // count number of tables
   uint numTables = 0;
