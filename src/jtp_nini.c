@@ -59,7 +59,7 @@ NiniToken* NiniTokenize(const char* source) {
   return result;
 }
 
-Nini* NiniNew(NiniToken* tokens) {
+Nini* NiniNew(NiniToken* tokens, const char* name) {
   // count number of tables
   uint numTables = 0;
   for (NiniToken* t = tokens; t->type != NiniEndToken; ++t) {
@@ -70,7 +70,7 @@ Nini* NiniNew(NiniToken* tokens) {
 
   Nini* nini = malloc(sizeof(Nini));
 
-  nini->name = "TODO: pass this in";
+  nini->name = name;
   nini->count = numTables;
   nini->tables = malloc(sizeof(NiniTable*) * numTables);
   NiniToken* tablePtr = tokens;

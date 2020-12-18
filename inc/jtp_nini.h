@@ -47,23 +47,8 @@ typedef struct Nini {
   NiniTable** tables;
 } Nini;
 
-
-Nini* NiniReadFile(const char* path, const char* name);
-Nini* NiniCreate(const char* source, const char* name);
-void NiniDestroy(Nini* nini);
-NiniTable* NiniGetTable(Nini* nini, const char* name);
-NiniEntry* NiniGetEntry(Nini* nini, const char* tableName, const char* entryName);
-NiniEntry* NiniTableGetEntry(NiniTable* table, const char* name);
-void NiniTableSetValue(NiniTable *table, const char* name, NiniValue value);
-void NiniDestroy(Nini *table);
-
-char* ParseNiniTableName(char* token);
-NiniTable ParseNiniTable(char* token);
-NiniEntry ParseNiniEntry(char* token);
-NiniValue ParseNiniValue(char* token);
-
 NiniToken* NiniTokenize(const char* source);
-Nini* NiniNew(NiniToken* tokens);
+Nini* NiniNew(NiniToken* tokens, const char* name);
 void NiniFree(Nini* nini);
 
 #endif

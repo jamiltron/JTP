@@ -54,7 +54,7 @@ int main() {
     ++i;
   } */
 
-  Nini* nini = NiniNew(tokens);
+  Nini* nini = NiniNew(tokens, "test");
   printf("\n\n******\n");
   printf("nini.name: %s, table.count: %i\n", nini->name, nini->count);
   for (uint t = 0; t < nini->count; ++t) {
