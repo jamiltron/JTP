@@ -63,7 +63,10 @@ int main() {
 
     for (uint e = 0; e < table->count; ++e) {
       NiniEntry* entry = table->entries[e];
-      printf("entry.name: %s\n", entry->key);
+      printf("entry.name: %s, ", entry->key);
+      if (entry->value.entryType == Integer) {
+        printf("entry.value.value %i\n", entry->value.value.integer);
+      }
     }
   }
   printf("******\n");

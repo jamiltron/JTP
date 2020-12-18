@@ -115,20 +115,20 @@ Nini* NiniNew(NiniToken* tokens, const char* name) {
       char* strVal = entriesPtr[j*3+2].value;
       printf("key: %s, val: %s\n", key, strVal);
 
-      NiniValue *value = malloc(sizeof(NiniValue));
-
+      //NiniValue *value = malloc(sizeof(NiniValue));
+      NiniValue value;
       if (StringIsInteger(strVal)) {
-        value->value.integer = atoi(strVal);
-        value->entryType = Integer;
+        value.value.integer = atoi(strVal);
+        value.entryType = Integer;
       } else if (strcmp(strVal, "true") == 0) {
-        value->value.boolean = true;
-        value->entryType = Bool;
+        value.value.boolean = true;
+        value.entryType = Bool;
       } else if (strcmp(strVal, "false") == 0) {
-        value->value.boolean = false;
-        value->entryType = Bool;
+        value.value.boolean = false;
+        value.entryType = Bool;
       } else {
-        value->value.string = strVal;
-        value->entryType = String;
+        value.value.string = strVal;
+        value.entryType = String;
       }
 
       NiniEntry *entry = malloc(sizeof(NiniEntry));
@@ -148,8 +148,7 @@ void NiniFree(Nini* nini) {
   for (int i = 0; i < nini->count; ++i) {
     NiniTable* table = nini->tables[i];
     for (int j = 0; j < table->count; ++j) {
-      NiniEntry *entry = table->entries[j];
-      free(entry->value);
+      NiniEntry* entry = table->entries[j];
       free(entry);
     }
     free(table);

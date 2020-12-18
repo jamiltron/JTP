@@ -32,7 +32,7 @@ typedef struct NiniValue {
 
 typedef struct NiniEntry {
   char* key;
-  NiniValue* value;
+  NiniValue value;
 } NiniEntry;
 
 typedef struct NiniTable {
