@@ -174,6 +174,15 @@ Vec3 Vec3Add(Vec3 vec1, Vec3 vec2) {
   };
 }
 
+Vec4 Vec4FromColor(Color color) {
+  return (Vec4) {
+    .x = color.r,
+    .y = color.g,
+    .z = color.b,
+    .w = color.a,
+  };
+}
+
 void PrintMat4x4(Mat4 mat) {}
 
 void Vec2Print(Vec2* vec) {

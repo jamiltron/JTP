@@ -1,6 +1,7 @@
 #include "jtp_game.h"
 #include "jtp_assets.h"
 #include "jtp_shader_program.h"
+#include "jtp_shapes2d.h"
 #include "jtp_timer.h"
 #include <GL/gl.h>
 #include <glad/glad.h>
@@ -9,9 +10,9 @@
 #include <stdlib.h>
 
 typedef struct {
-  GLFWwindow* window;
+  GLFWwindow *window;
   Timer timer;
-  ShaderProgram* defaultShader;
+  ShaderProgram *defaultShader;
   Mat4 projection;
 } _Game;
 
@@ -87,6 +88,10 @@ Size WindowSize() {
 
 Mat4 WindowProjection() {
   return game.projection;
+}
+
+void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
+  Shapes_DrawTriangle(p1, p2, p3, color);
 }
 
 void _FramebufferSizeCallback(GLFWwindow* window, int width, int height) {

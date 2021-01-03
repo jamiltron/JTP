@@ -63,6 +63,8 @@ float Vec3Length(Vec3 vec);
 Vec3 Vec3Cross(Vec3 vec1, Vec3 vec2);
 Vec3 Vec3Add(Vec3 vec1, Vec3 vec2);
 
+Vec4 Vec4FromColor(Color color);
+
 void PrintMat4x4(Mat4 mat);
 void Vec2Print(Vec2* vec);
 

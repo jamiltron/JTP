@@ -10,7 +10,7 @@
 
 static void _InitRectRenderer(void);
 
-void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
+void Shapes_DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   Mat4x4 projection = WindowProjection();
   Size windowSize = WindowSize();
 
@@ -41,7 +41,7 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
     Mat4 model = Mat4New(1.0f);
     ShaderSetMatrix4(def, "projection", &projection, false);
     ShaderSetMatrix4(def, "model", &model, false);
-    ShaderSetVector4f(def, "color", &color, false);
+    ShaderSetColor4f(def, "color", &color, false);
     glDrawArrays(GL_TRIANGLES, 0, 3);
   }
 
@@ -57,14 +57,14 @@ typedef struct RectRenderer {
 /* TODO: think about having this live on game, we should "know" about game end somewhere */
 static RectRenderer _rectRenderer = { 0 };
 
-void DrawRectangle(Rect rect, Color color) {
+void Shapes_DrawRectangle(Rect rect, Color color) {
   _InitRectRenderer();
   glBindVertexArray(_rectRenderer.vao);
   Mat4 model = Mat4New(1.0f);
   model = Mat4Translate(model, (Vec3) {.x = rect.x, .y = rect.y, .z = 0});
   model = Mat4Scale(model, (Vec4) { .x = rect.width, .y = rect.height, .z = 1.0, .w = 1});
   ShaderSetMatrix4(_rectRenderer.shaderProgram, "model", &model, true);
-  ShaderSetVector4f(_rectRenderer.shaderProgram, "color", &color, false);
+  ShaderSetColor4f(_rectRenderer.shaderProgram, "color", &color, false);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 

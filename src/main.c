@@ -1,10 +1,5 @@
 #include <stdio.h>
-#include "jtp_assets.h"
 #include "jtp_game.h"
-#include "jtp_math.h"
-#include "jtp_nini.h"
-#include "jtp_shapes2d.h"
-#include "jtp_string.h"
 
 int main() {
   WindowInit(800, 600, "JTP");

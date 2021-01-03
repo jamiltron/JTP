@@ -52,14 +52,21 @@ void ShaderDelete(ShaderProgram* program) {
   free(program);
 }
 
-void ShaderSetVector4f(ShaderProgram* this, const char *name, Vec4 *vec, bool useProgram) {
+void ShaderSetVector4f(ShaderProgram *this, const char *name, Vec4 *vec, bool useProgram) {
   if (useProgram) {
     ShaderProgramUse(this);
   }
   glUniform4f(glGetUniformLocation(this->id, name), vec->x, vec->y, vec->z, vec->w);
 }
 
-void ShaderSetMatrix4(ShaderProgram* this, const char* name, Mat4 *mat4, bool useProgram) {
+void ShaderSetColor4f(ShaderProgram *this, const char *name, Color *color, bool useProgram) {
+  if (useProgram) {
+    ShaderProgramUse(this);
+  }
+  glUniform4f(glGetUniformLocation(this->id, name), color->r, color->g, color->b, color->a);
+}
+
+void ShaderSetMatrix4(ShaderProgram *this, const char *name, Mat4 *mat4, bool useProgram) {
   if (useProgram) {
     ShaderProgramUse(this);
   }
@@ -70,4 +77,8 @@ void ShaderSetMatrix4(ShaderProgram* this, const char* name, Mat4 *mat4, bool us
   };
 
   glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, &m[0]);
+}
+
+uint ShaderGetUniformLocation(ShaderProgram *this, const char *name) {
+  return glGetUniformLocation(this->id, name);
 }
