@@ -60,12 +60,13 @@ void Shapes2D_DrawTriangle(Shapes2D_Renderer *renderer, Vec2 p1, Vec2 p2, Vec2 p
     p3.x, p3.y
   };
 
-  /* TODO think about how we can cache these */
-  uint vbo, vao;
+  uint vbo;
+  uint vao;
+
   glGenVertexArrays(1, &vao);
   glGenBuffers(1, &vbo);
 
-  glBindVertexArray(vbo);
+  glBindVertexArray(vao);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
@@ -74,16 +75,10 @@ void Shapes2D_DrawTriangle(Shapes2D_Renderer *renderer, Vec2 p1, Vec2 p2, Vec2 p
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-  /* TODO don't do this */
-  ShaderProgram* def = GetShader("default");
-  if (def != NULL) {
-    glUseProgram(def->id);
-    Mat4 model = Mat4New(1.0f);
-    ShaderSetMatrix4(def, renderer->projectionUniform, &projection, false);
-    ShaderSetMatrix4(def, renderer->modelUniform, &model, false);
-    ShaderSetColor4f(def, renderer->colorUniform, &color, false);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-  }
+  Mat4 model = Mat4New(1.0f);
+  ShaderSetMatrix4(renderer->shaderProgram, renderer->modelUniform, &model, true);
+  ShaderSetColor4f(renderer->shaderProgram, renderer->colorUniform, &color, false);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
 
   glBindVertexArray(0);
 }
