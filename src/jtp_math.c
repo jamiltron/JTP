@@ -16,7 +16,7 @@ Mat4 Ortho(double left, double right, double bottom, double top, double near, do
   return m;
 }
 
-Vec2 MultMat4x4ByVec2(Mat4 mat, Vec2 vec) {
+Vec2 Mat4x4ByVec2(Mat4 mat, Vec2 vec) {
   Vec4 vec4 = (Vec4) { .x = vec.x, .y = vec.y, .z = 0, .w = 0.0f};
   vec4 = MultMat4x4ByVec4(mat, vec4);
   return (Vec2) { .x = vec4.x, .y = vec4.y };
