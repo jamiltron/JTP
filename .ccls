@@ -1,4 +1,0 @@
-gcc
-%c -std=c11
--Iinc
--I/usr/local/include

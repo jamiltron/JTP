@@ -54,7 +54,6 @@ foreach(SHADER ${SHADERS})
   elseif(UNIX AND NOT APPLE)
       file(COPY ${SHADER} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
   elseif(APPLE)
-      # create symbolic link for *.vs *.fs *.gs
       get_filename_component(SHADERNAME ${SHADER} NAME)
       makeLink(${SHADER} ${CMAKE_CURRENT_BINARY_DIR} ${NAME})
   endif(WIN32)
