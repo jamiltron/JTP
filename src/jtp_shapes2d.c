@@ -65,7 +65,7 @@ void Shapes_DrawRectangle(Rect rect, Color color) {
   model = Mat4Scale(model, (Vec4) { .x = rect.width, .y = rect.height, .z = 1.0, .w = 1});
   ShaderSetMatrix4(_rectRenderer.shaderProgram, "model", &model, true);
   ShaderSetColor4f(_rectRenderer.shaderProgram, "color", &color, false);
-  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 /* TODO think about future shader support */
@@ -75,28 +75,19 @@ void _InitRectRenderer() {
   _rectRenderer.shaderProgram = GetShader("default");
 
   float vertices[] = {
-    1.0f,  1.0f,  // top right
-    1.0f, -1.0f,  // bottom right
     -1.0f, -1.0f, // bottom left
     -1.0f,  1.0f, // top left
+    1.0f, -1.0f,  // bottom right
+    1.0f,  1.0f,  // top right
   };
 
-  unsigned int indices[] = {
-    0, 1, 3,
-    1, 2, 3
-  };
-
-  uint vbo, ebo;
+  uint vbo;
   glGenVertexArrays(1, &_rectRenderer.vao);
   glGenBuffers(1, &vbo);
-  glGenBuffers(1, &ebo);
   glBindVertexArray(_rectRenderer.vao);
 
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);

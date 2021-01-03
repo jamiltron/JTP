@@ -16,5 +16,6 @@ Mat4 WindowProjection(void);
 
 // Primitives
 void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color);
+void DrawRectangle(Rect rect, Color color);
 
 #endif
