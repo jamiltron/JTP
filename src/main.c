@@ -17,9 +17,6 @@ int main() {
     WindowClear((Color)
                 { .r = 0.91f, .g = 0.45f, .b = 0.32f, .a = 1.0f });
     DrawTriangle((Vec2){400.0f, 200.f}, (Vec2){200, 400}, (Vec2){600, 400}, (Color){0.0f, 1.0f, 0.0f, 1.0f});
-      /* DrawRectangle(
-        (Rect) { .x = 400, .y = 300, .width = 64, .height = 64},
-        (Color){ .r = 0.0f, .g = 0.0f, .b = 1.0f, .a = 1.0f}); */
     EndDrawing();
   }
 

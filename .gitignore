@@ -57,3 +57,6 @@ build/
 !lib/*
 .cache/
 CMakeFiles/
+.ccls
+.ccls-cache
+compile-commands.json

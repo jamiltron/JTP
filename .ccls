@@ -1,4 +1,4 @@
-clang
+gcc
 %c -std=c11
--Iinc/*
+-Iinc
 -I/usr/local/include
