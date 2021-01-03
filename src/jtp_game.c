@@ -9,17 +9,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct {
+typedef struct Game {
   GLFWwindow *window;
   Timer timer;
   ShaderProgram *defaultShader;
   Mat4 projection;
-} _Game;
+  Shapes2D_Renderer *rendererShapes2D;
+} Game;
 
 static void _FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 static void _ProcessInput(GLFWwindow* window);
 
-static _Game game;
+static Game game;
 
 void WindowInit(uint width, uint height, const char* title) {
   glfwInit();
@@ -48,6 +49,7 @@ void WindowInit(uint width, uint height, const char* title) {
   /* TODO don't do this */
   game.defaultShader = LoadShader("default", "default.vert", "default.frag");
   game.projection = Ortho(0.0, 800.0, 600.0, 0.0, -1.0, 1.0);
+  game.rendererShapes2D = Shapes2D_RendererNew(game.defaultShader);
 }
 
 bool WindowShouldClose() {
@@ -91,11 +93,11 @@ Mat4 WindowProjection() {
 }
 
 void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
-  Shapes2D_DrawTriangle(p1, p2, p3, color);
+  Shapes2D_DrawTriangle(game.rendererShapes2D, p1, p2, p3, color);
 }
 
 void DrawRectangle(Rect rect, Color color) {
-  Shapes2D_DrawRectangle(rect, color);
+  Shapes2D_DrawRectangle(game.rendererShapes2D, rect, color);
 }
 
 void _FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
