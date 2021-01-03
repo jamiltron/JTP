@@ -12,7 +12,7 @@ typedef struct {
   GLFWwindow* window;
   Timer timer;
   ShaderProgram* defaultShader;
-  Mat4 ortho;
+  Mat4 projection;
 } _Game;
 
 static void _FramebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -46,7 +46,7 @@ void WindowInit(uint width, uint height, const char* title) {
 
   /* TODO don't do this */
   game.defaultShader = LoadShader("default", "default.vert", "default.frag");
-  game.ortho = Ortho(0.0, 800.0, 600.0, 0.0, -1.0, 1.0);
+  game.projection = Ortho(0.0, 800.0, 600.0, 0.0, -1.0, 1.0);
 }
 
 bool WindowShouldClose() {
@@ -85,8 +85,8 @@ Size WindowSize() {
   return (Size) { .width = width, .height = height };
 }
 
-Mat4 WindowOrtho() {
-  return game.ortho;
+Mat4 WindowProjection() {
+  return game.projection;
 }
 
 void _FramebufferSizeCallback(GLFWwindow* window, int width, int height) {

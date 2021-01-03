@@ -1,4 +1,5 @@
 #include "jtp_math.h"
+#include <math.h>
 #include <stdio.h>
 
 Mat4 Ortho(double left, double right, double bottom, double top, double near, double far) {
@@ -16,19 +17,19 @@ Mat4 Ortho(double left, double right, double bottom, double top, double near, do
   return m;
 }
 
-Vec2 Mat4x4ByVec2(Mat4 mat, Vec2 vec) {
+Vec2 Mat4Vec2Mult(Mat4 mat, Vec2 vec) {
   Vec4 vec4 = (Vec4) { .x = vec.x, .y = vec.y, .z = 0, .w = 0.0f};
-  vec4 = MultMat4x4ByVec4(mat, vec4);
+  vec4 = Mat4Vec4Mult(mat, vec4);
   return (Vec2) { .x = vec4.x, .y = vec4.y };
 }
 
-Vec3 MultMat4x4ByVec3(Mat4 mat, Vec3 vec) {
+Vec3 Mat4Vec3Mult(Mat4 mat, Vec3 vec) {
   Vec4 vec4 = (Vec4) { .x = vec.x, .y = vec.y, .z = vec.z, .w = 0.0f};
-  vec4 = MultMat4x4ByVec4(mat, vec4);
+  vec4 = Mat4Vec4Mult(mat, vec4);
   return (Vec3) { .x = vec4.x, .y = vec4.y, .z = vec4.z };
 }
 
-Vec4 MultMat4x4ByVec4(Mat4 mat, Vec4 vec) {
+Vec4 Mat4Vec4Mult(Mat4 mat, Vec4 vec) {
   Vec4 res = { 0 };
 
   res.x = mat.x0 * vec.x + mat.x1 * vec.y + mat.x2 * vec.z + mat.x3 * vec.w;
@@ -49,7 +50,7 @@ Mat4 Mat4New(float diagonal) {
   return mat;
 }
 
-Mat4 MultMat4Mat4(Mat4 m0, Mat4 m1) {
+Mat4 Mat4Mult(Mat4 m0, Mat4 m1) {
   Mat4 res = { 0 };
 
   res.x0 = m0.x0 * m1.x0 + m0.x1 * m1.y0 + m0.x2 * m1.z0 + m0.x3 * m1.w0;
@@ -75,11 +76,11 @@ Mat4 MultMat4Mat4(Mat4 m0, Mat4 m1) {
   return res;
 }
 
-Mat4 ScaleMat4x4(Mat4 mat, Vec4 vec) {
-  return MultMat4Mat4(mat, GetScaleMatrix(vec));
+Mat4 Mat4Scale(Mat4 mat, Vec4 vec) {
+  return Mat4Mult(mat, Mat4ScaleMatrix(vec));
 }
 
-Mat4 GetScaleMatrix(Vec4 vec) {
+Mat4 Mat4ScaleMatrix(Vec4 vec) {
   Mat4 res = { 0 };
   res.x0 = vec.x;
   res.y1 = vec.y;
@@ -88,7 +89,7 @@ Mat4 GetScaleMatrix(Vec4 vec) {
   return res;
 }
 
-Mat4 GetTranslateMatrix(Vec3 vec) {
+Mat4 Mat4TranslationMatrix(Vec3 vec) {
   Mat4 res = {0};
   res.x3 = vec.x;
   res.y3 = vec.y;
@@ -97,7 +98,7 @@ Mat4 GetTranslateMatrix(Vec3 vec) {
   return res;
 }
 
-Mat4 TranslateMat4x4(Mat4 mat, Vec3 vec) {
+Mat4 Mat4Translate(Mat4 mat, Vec3 vec) {
   Mat4 res = {
     mat.x0, mat.x1, mat.x2, vec.x,
     mat.y0, mat.y1, mat.y2, vec.y,
@@ -105,6 +106,72 @@ Mat4 TranslateMat4x4(Mat4 mat, Vec3 vec) {
     mat.w0, mat.w1, mat.w2, 1.0f,
   };
   return res;
+}
+
+Vec2 Vec2Normalize(Vec2 vec) {
+  return Vec2Scale(vec, 1.0 / sqrt(Vec2Dot(vec, vec)));
+}
+
+Vec2 Vec2Scale(Vec2 vec, float scalar) {
+  return (Vec2) {
+    .x = vec.x * scalar,
+    .y = vec.x * scalar,
+  };
+}
+
+float Vec2Dot(Vec2 vec1, Vec2 vec2) {
+  return vec1.x * vec2.x + vec1.y * vec2.y;
+}
+
+float Vec2Length(Vec2 vec) {
+  return sqrt(Vec2Dot(vec, vec));
+}
+
+float Vec2Cross(Vec2 vec1, Vec2 vec2) {
+  return vec1.x * vec2.y - vec1.y * vec2.x;
+}
+
+Vec2 Vec2Add(Vec2 vec1, Vec2 vec2) {
+  return (Vec2) {
+    .x = vec1.x + vec2.x,
+    .y = vec1.y + vec2.y,
+  };
+}
+
+Vec3 Vec3Normalize(Vec3 vec) {
+  return Vec3Scale(vec, 1.0 / sqrt(Vec3Dot(vec, vec)));
+}
+
+Vec3 Vec3Scale(Vec3 vec3, float scalar) {
+  return (Vec3) {
+    .x = vec3.x * scalar,
+    .y = vec3.y * scalar,
+    .z = vec3.z * scalar
+  };
+}
+
+float Vec3Dot(Vec3 vec1, Vec3 vec2) {
+  return vec1.x * vec2.x + vec1.y + vec2.y * vec1.z + vec2.z;
+}
+
+float Vec3Length(Vec3 vec) {
+  return sqrt(Vec3Dot(vec, vec));
+}
+
+Vec3 Vec3Cross(Vec3 vec1, Vec3 vec2) {
+  return (Vec3) {
+    .x = vec1.y * vec2.z - vec1.z * vec2.y,
+    .y = vec1.z * vec2.z - vec1.x * vec2.z,
+    .z = vec1.x * vec2.y - vec1.y * vec2.x,
+  };
+}
+
+Vec3 Vec3Add(Vec3 vec1, Vec3 vec2) {
+  return (Vec3) {
+    .x = vec1.x + vec2.x,
+    .y = vec1.y + vec2.y,
+    .z = vec1.z + vec2.z,
+  };
 }
 
 void PrintMat4x4(Mat4 mat) {}

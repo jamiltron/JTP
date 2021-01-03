@@ -2,7 +2,7 @@
 #include "jtp_shader_program.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <glad/glad.h>
+#include "glad/glad.h"
 
 ShaderProgram* ShaderProgramNew(const char *vertCode, const char *fragCode) {
   ShaderProgram* program = malloc(sizeof(ShaderProgram));

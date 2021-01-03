@@ -40,14 +40,28 @@ Mat4 Ortho(double left, double right, double bottom, double top, double near, do
 Mat4 Mat4New(float diagonal);
 const float* Mat4Cols(Mat4 mat);
 
-Vec2 MultMat4x4ByVec2(Mat4 mat, Vec2 vec);
-Vec3 MultMat4x4ByVec3(Mat4 mat, Vec3 vec);
-Vec4 MultMat4x4ByVec4(Mat4 mat, Vec4 vec);
-Mat4 MultMat4Mat4(Mat4 m0, Mat4 m1);
-Mat4 ScaleMat4x4(Mat4 mat, Vec4 vec);
-Mat4 GetScaleMatrix(Vec4 vec);
-Mat4 TranslateMat4x4(Mat4 mat, Vec3 vec);
-Mat4 GetTranslateMatrix(Vec3 vec);
+Vec2 Mat4Vec2Mult(Mat4 mat, Vec2 vec);
+Vec3 Mat4Vec3Mult(Mat4 mat, Vec3 vec);
+Vec4 Mat4Vec4Mult(Mat4 mat, Vec4 vec);
+Mat4 Mat4Mult(Mat4 m0, Mat4 m1);
+Mat4 Mat4Scale(Mat4 mat, Vec4 vec);
+Mat4 Mat4ScaleMatrix(Vec4 vec);
+Mat4 Mat4Translate(Mat4 mat, Vec3 vec);
+Mat4 Mat4TranslationMatrix(Vec3 vec);
+
+Vec2 Vec2Normalize(Vec2 vec);
+Vec2 Vec2Scale(Vec2 vec, float scalar);
+float Vec2Dot(Vec2 vec1, Vec2 vec2);
+float Vec2Length(Vec2 vec);
+float Vec2Cross(Vec2 vec1, Vec2 vec2);
+Vec2 Vec2Add(Vec2 vec1, Vec2 vec2);
+
+Vec3 Vec3Normalize(Vec3 vec);
+Vec3 Vec3Scale(Vec3 vec, float scalar);
+float Vec3Dot(Vec3 vec1, Vec3 vec2);
+float Vec3Length(Vec3 vec);
+Vec3 Vec3Cross(Vec3 vec1, Vec3 vec2);
+Vec3 Vec3Add(Vec3 vec1, Vec3 vec2);
 
 void PrintMat4x4(Mat4 mat);
 void Vec2Print(Vec2* vec);

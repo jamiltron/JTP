@@ -10,9 +10,8 @@
 
 static void _InitRectRenderer(void);
 
-/* This currently doesn't do what it says, I'm just getting something on screen. */
 void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
-  Mat4x4 ortho = WindowOrtho();
+  Mat4x4 projection = WindowProjection();
   Size windowSize = WindowSize();
 
   float vertices[] = {
@@ -40,7 +39,7 @@ void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   if (def != NULL) {
     glUseProgram(def->id);
     Mat4 model = Mat4New(1.0f);
-    ShaderSetMatrix4(def, "projection", &ortho, false);
+    ShaderSetMatrix4(def, "projection", &projection, false);
     ShaderSetMatrix4(def, "model", &model, false);
     ShaderSetVector4f(def, "color", &color, false);
     glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -62,8 +61,8 @@ void DrawRectangle(Rect rect, Color color) {
   _InitRectRenderer();
   glBindVertexArray(_rectRenderer.vao);
   Mat4 model = Mat4New(1.0f);
-  model = TranslateMat4x4(model, (Vec3) {.x = rect.x, .y = rect.y, .z = 0});
-  model = ScaleMat4x4(model, (Vec4) { .x = rect.width, .y = rect.height, .z = 1.0, .w = 1});
+  model = Mat4Translate(model, (Vec3) {.x = rect.x, .y = rect.y, .z = 0});
+  model = Mat4Scale(model, (Vec4) { .x = rect.width, .y = rect.height, .z = 1.0, .w = 1});
   ShaderSetMatrix4(_rectRenderer.shaderProgram, "model", &model, true);
   ShaderSetVector4f(_rectRenderer.shaderProgram, "color", &color, false);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -72,7 +71,7 @@ void DrawRectangle(Rect rect, Color color) {
 /* TODO think about future shader support */
 void _InitRectRenderer() {
   if (_rectRenderer.init) return;
-  Mat4 ortho = WindowOrtho();
+  Mat4 ortho = WindowProjection();
   _rectRenderer.shaderProgram = GetShader("default");
 
   float vertices[] = {
