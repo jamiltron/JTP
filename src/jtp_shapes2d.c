@@ -10,7 +10,7 @@
 
 static void _InitRectRenderer(void);
 
-void Shapes_DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
+void Shapes2D_DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   Mat4x4 projection = WindowProjection();
   Size windowSize = WindowSize();
 
@@ -57,7 +57,7 @@ typedef struct RectRenderer {
 /* TODO: think about having this live on game, we should "know" about game end somewhere */
 static RectRenderer _rectRenderer = { 0 };
 
-void Shapes_DrawRectangle(Rect rect, Color color) {
+void Shapes2D_DrawRectangle(Rect rect, Color color) {
   _InitRectRenderer();
   glBindVertexArray(_rectRenderer.vao);
   Mat4 model = Mat4New(1.0f);

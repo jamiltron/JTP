@@ -91,11 +91,11 @@ Mat4 WindowProjection() {
 }
 
 void DrawTriangle(Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
-  Shapes_DrawTriangle(p1, p2, p3, color);
+  Shapes2D_DrawTriangle(p1, p2, p3, color);
 }
 
 void DrawRectangle(Rect rect, Color color) {
-  Shapes_DrawRectangle(rect, color);
+  Shapes2D_DrawRectangle(rect, color);
 }
 
 void _FramebufferSizeCallback(GLFWwindow* window, int width, int height) {
