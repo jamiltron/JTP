@@ -13,9 +13,9 @@ ShaderProgram* ShaderProgramNew(const char *vertCode, const char* fragCode);
 
 uint ShaderCompile(const char *shaderCode, GLenum type);
 void ShaderDelete(ShaderProgram *program);
-void ShaderSetVector4f(ShaderProgram *this, const char *name, Vec4 *value, bool useShader);
-void ShaderSetColor4f(ShaderProgram *this, const char *name, Color *color, bool useShader);
-void ShaderSetMatrix4(ShaderProgram *this, const char *name, Mat4x4 *matrix, bool useShader);
+void ShaderSetVector4f(ShaderProgram *this, uint location, Vec4 *value, bool useShader);
+void ShaderSetColor4f(ShaderProgram *this, uint location, Color *color, bool useShader);
+void ShaderSetMatrix4(ShaderProgram *this, uint location, Mat4x4 *matrix, bool useShader);
 uint ShaderGetUniformLocation(ShaderProgram *this, const char *name);
 
 #endif

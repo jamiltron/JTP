@@ -79,6 +79,8 @@ float GetTime(void) {
 
 void WindowClose() {
   glDeleteProgram(game.defaultShader->id);
+  free(game.defaultShader);
+  free(game.rendererShapes2D);
   glfwTerminate();
 }
 
