@@ -1,6 +1,6 @@
 #include "jtp_game.h"
 #include "jtp_assets.h"
-#include "jtp_shader_program.h"
+#include "jtp_shader.h"
 #include "jtp_shapes2d.h"
 #include "jtp_timer.h"
 #include <GL/gl.h>

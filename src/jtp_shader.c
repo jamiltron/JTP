@@ -1,5 +1,5 @@
 #include "jtp_constants.h"
-#include "jtp_shader_program.h"
+#include "jtp_shader.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "glad/glad.h"

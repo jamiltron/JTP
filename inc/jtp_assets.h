@@ -1,6 +1,6 @@
 #ifndef JTP_ASSETS_H
 #define JTP_ASSETS_H
-#include "jtp_shader_program.h"
+#include "jtp_shader.h"
 #include "jtp_texture2d.h"
 #include <stdbool.h>
 

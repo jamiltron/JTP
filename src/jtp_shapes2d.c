@@ -1,7 +1,7 @@
 #include "jtp_assets.h"
 #include "jtp_game.h"
 #include "jtp_math.h"
-#include "jtp_shader_program.h"
+#include "jtp_shader.h"
 #include "jtp_shapes2d.h"
 #include <glad/glad.h>
 #include <stdio.h>
