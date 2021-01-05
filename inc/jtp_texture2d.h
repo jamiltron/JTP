@@ -16,6 +16,7 @@ typedef struct Texture2D {
 } Texture2D;
 
 Texture2D *Texture2D_New(uint width, uint height, bool alpha, uchar *data);
+void Texture2D_Delete(Texture2D *texture);
 void Texture2D_Bind(Texture2D *texture);
 void Texture2D_SetFilterMin(Texture2D *texture, uint filterMin);
 void Texture2D_SetFilterMag(Texture2D *texture, uint filterMag);

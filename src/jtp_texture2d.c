@@ -9,7 +9,7 @@ Texture2D *Texture2D_New(uint width, uint height, bool alpha, uchar *data) {
   glGenTextures(1, &texture->id);
   texture->width = width;
   texture->height = height;
-  if (bool) {
+  if (alpha) {
     texture->internalFormat = GL_RGBA;
     texture->imageFormat = GL_RGBA;
   } else {
@@ -31,6 +31,11 @@ Texture2D *Texture2D_New(uint width, uint height, bool alpha, uchar *data) {
   glBindTexture(GL_TEXTURE_2D, 0);
 
   return texture;
+}
+
+void Texture2D_Delete(Texture2D *texture) {
+  glDeleteTextures(1, &texture->id);
+  free(texture);
 }
 
 void Texture2D_Bind(Texture2D *texture) {

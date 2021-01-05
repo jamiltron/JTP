@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include "glad/glad.h"
 
-ShaderProgram* ShaderProgramNew(const char *vertCode, const char *fragCode) {
+ShaderProgram* ShaderProgram_New(const char *vertCode, const char *fragCode) {
   ShaderProgram* program = malloc(sizeof(ShaderProgram));
-  uint vert = ShaderCompile(vertCode, GL_VERTEX_SHADER);
-  uint frag = ShaderCompile(fragCode, GL_FRAGMENT_SHADER);
+  uint vert = Shader_Compile(vertCode, GL_VERTEX_SHADER);
+  uint frag = Shader_Compile(fragCode, GL_FRAGMENT_SHADER);
 
   program->id = glCreateProgram();
   glAttachShader(program->id, vert);
@@ -27,7 +27,7 @@ ShaderProgram* ShaderProgramNew(const char *vertCode, const char *fragCode) {
   return program;
 }
 
-uint ShaderCompile(const char* shaderCode, GLenum type) {
+uint Shader_Compile(const char* shaderCode, GLenum type) {
   uint shader = glCreateShader(type);
   glShaderSource(shader, 1, &shaderCode, NULL);
   glCompileShader(shader);
@@ -43,32 +43,32 @@ uint ShaderCompile(const char* shaderCode, GLenum type) {
   return shader;
 }
 
-void ShaderProgramUse(ShaderProgram* this) {
-  glUseProgram(this->id);
+void ShaderProgram_Use(ShaderProgram* program) {
+  glUseProgram(program->id);
 }
 
-void ShaderDelete(ShaderProgram* program) {
+void ShaderProgram_Delete(ShaderProgram* program) {
   glDeleteProgram(program->id);
   free(program);
 }
 
-void ShaderSetVector4f(ShaderProgram *this, uint location, Vec4 *vec, bool useProgram) {
+void ShaderProgram_SetVector4f(ShaderProgram *this, uint location, Vec4 *vec, bool useProgram) {
   if (useProgram) {
-    ShaderProgramUse(this);
+    ShaderProgram_Use(this);
   }
   glUniform4f(location, vec->x, vec->y, vec->z, vec->w);
 }
 
-void ShaderSetColor4f(ShaderProgram *this, uint location, Color *color, bool useProgram) {
+void ShaderProgram_SetColor4f(ShaderProgram *this, uint location, Color *color, bool useProgram) {
   if (useProgram) {
-    ShaderProgramUse(this);
+    ShaderProgram_Use(this);
   }
   glUniform4f(location, color->r, color->g, color->b, color->a);
 }
 
-void ShaderSetMatrix4(ShaderProgram *this, uint location, Mat4 *mat4, bool useProgram) {
+void ShaderProgram_SetMatrix4(ShaderProgram *this, uint location, Mat4 *mat4, bool useProgram) {
   if (useProgram) {
-    ShaderProgramUse(this);
+    ShaderProgram_Use(this);
   }
   float m[16] = { mat4->x0, mat4->y0, mat4->z0, mat4->w0,
     mat4->x1, mat4->y1, mat4->z1, mat4->w1,
@@ -79,6 +79,6 @@ void ShaderSetMatrix4(ShaderProgram *this, uint location, Mat4 *mat4, bool usePr
   glUniformMatrix4fv(location, 1, false, &m[0]);
 }
 
-uint ShaderGetUniformLocation(ShaderProgram *this, const char *name) {
+uint ShaderProgram_GetUniformLocation(ShaderProgram *this, const char *name) {
   return glGetUniformLocation(this->id, name);
 }

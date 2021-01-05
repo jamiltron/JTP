@@ -9,13 +9,14 @@ typedef struct ShaderProgram {
   uint id;
 } ShaderProgram;
 
-ShaderProgram* ShaderProgramNew(const char *vertCode, const char* fragCode);
+ShaderProgram* ShaderProgram_New(const char *vertCode, const char* fragCode);
+void ShaderProgram_Delete(ShaderProgram *program);
+void ShaderProgram_Use(ShaderProgram *program);
+void ShaderProgram_SetVector4f(ShaderProgram *this, uint location, Vec4 *value, bool useShader);
+void ShaderProgram_SetColor4f(ShaderProgram *this, uint location, Color *color, bool useShader);
+void ShaderProgram_SetMatrix4(ShaderProgram *this, uint location, Mat4x4 *matrix, bool useShader);
+uint ShaderProgram_GetUniformLocation(ShaderProgram *this, const char *name);
 
-uint ShaderCompile(const char *shaderCode, GLenum type);
-void ShaderDelete(ShaderProgram *program);
-void ShaderSetVector4f(ShaderProgram *this, uint location, Vec4 *value, bool useShader);
-void ShaderSetColor4f(ShaderProgram *this, uint location, Color *color, bool useShader);
-void ShaderSetMatrix4(ShaderProgram *this, uint location, Mat4x4 *matrix, bool useShader);
-uint ShaderGetUniformLocation(ShaderProgram *this, const char *name);
+uint Shader_Compile(const char *shaderCode, GLenum type);
 
 #endif

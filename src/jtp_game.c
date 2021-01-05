@@ -11,6 +11,7 @@
 
 typedef struct Game {
   GLFWwindow *window;
+  Assets *assets;
   Timer timer;
   ShaderProgram *defaultShader;
   Mat4 projection;
@@ -46,8 +47,8 @@ void WindowInit(uint width, uint height, const char* title) {
 
   glViewport(0, 0, 800, 600);
 
-  /* TODO don't do this */
-  game.defaultShader = Assets_LoadShader("default", "default.vert", "default.frag");
+  game.assets = Assets_New();
+  game.defaultShader = Assets_LoadShader(game.assets, "default", "default.vert", "default.frag");
   game.projection = Ortho(0.0, 800.0, 600.0, 0.0, -1.0, 1.0);
   game.rendererShapes2D = Shapes2D_RendererNew(game.defaultShader);
 }
@@ -78,8 +79,7 @@ float GetTime(void) {
 }
 
 void WindowClose() {
-  glDeleteProgram(game.defaultShader->id);
-  free(game.defaultShader);
+  Assets_Clear(game.assets);
   free(game.rendererShapes2D);
   glfwTerminate();
 }

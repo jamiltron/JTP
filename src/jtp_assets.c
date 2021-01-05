@@ -1,9 +1,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "jtp_assets.h"
 #include "jtp_constants.h"
-#include "jtp_shader_program.h"
 #include "jtp_math.h"
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,15 +17,16 @@ typedef struct Texture2DEntry {
   const char *name;
 } Texture2DEntry;
 
+struct Assets {
+  uint shaderIndex;
+  ShaderEntry shaders[MAX_SHADERS];
 
-static uint _shaderIndex = 0;
-static ShaderEntry _shaders[MAX_SHADERS] = {NULL};
+  uint texture2DIndex;
+  Texture2DEntry textures2D[MAX_TEXTURES_2D];
+};
 
-static uint _texture2DIndex = 0;
-static Texture2DEntry _textures2D[MAX_TEXTURES_2D] = {NULL};
-
-static bool _IsShaderEntryOpen(uint i);
-static bool _IsTexture2DEntryOpen(uint i);
+static bool _IsShaderEntryOpen(Assets *assets, uint i);
+static bool _IsTexture2DEntryOpen(Assets *assets, uint i);
 
 const char *Assets_ReadFile(const char* path) {
   FILE *file = NULL;
@@ -57,12 +56,42 @@ const char *Assets_ReadFile(const char* path) {
   return string;
 }
 
-ShaderProgram* Assets_LoadShader(const char* name, const char* vertPath, const char* fragPath) {
-  while (_shaderIndex < MAX_SHADERS && !_IsShaderEntryOpen(_shaderIndex)) {
-    _shaderIndex++;
+Assets* Assets_New() {
+  Assets *assets = malloc(sizeof(Assets));
+  assets->shaderIndex = 0;
+  for (size_t i = 0; i < MAX_SHADERS; ++i) {
+    assets->shaders[i] = (ShaderEntry) { NULL, NULL };
   }
 
-  if (_shaderIndex >= MAX_SHADERS) {
+  assets->texture2DIndex = 0;
+  for (size_t i = 0; i < MAX_TEXTURES_2D; ++i) {
+    assets->textures2D[i] = (Texture2DEntry) { NULL, NULL };
+  }
+  return assets;
+}
+
+void Assets_Clear(Assets *assets) {
+  for (size_t i = 0; i < MAX_SHADERS; ++i) {
+    if (assets->shaders[i].program != NULL) {
+      ShaderProgram_Delete(assets->shaders[i].program);
+    }
+    assets->shaders[i] = (ShaderEntry) { NULL, NULL };
+  }
+
+  for (size_t i = 0; i < MAX_TEXTURES_2D; ++i) {
+    if (assets->textures2D[i].texture != NULL) {
+      Texture2D_Delete(assets->textures2D[i].texture);
+    }
+    assets->textures2D[i] = (Texture2DEntry) { NULL, NULL };
+  }
+}
+
+ShaderProgram* Assets_LoadShader(Assets *assets, const char* name, const char* vertPath, const char* fragPath) {
+  while (assets->shaderIndex < MAX_SHADERS && !_IsShaderEntryOpen(assets, assets->shaderIndex)) {
+    assets->shaderIndex++;
+  }
+
+  if (assets->shaderIndex >= MAX_SHADERS) {
     printf("Unable to load new shader %s, MAX_SHADER (%i) already loaded\n", name, MAX_SHADERS);
     return NULL;
   }
@@ -70,36 +99,40 @@ ShaderProgram* Assets_LoadShader(const char* name, const char* vertPath, const c
   const char* vertCode = Assets_ReadFile(vertPath);
   const char* fragCode = Assets_ReadFile(fragPath);
 
-  ShaderProgram* program = ShaderProgramNew(vertCode, fragCode);
-  _shaders[_shaderIndex++] = (ShaderEntry){ .program = program, .name = name };
+  ShaderProgram* program = ShaderProgram_New(vertCode, fragCode);
+  assets->shaders[assets->shaderIndex++] = (ShaderEntry){ .program = program, .name = name };
   return program;
 }
 
-ShaderProgram* Assets_GetShader(const char* name) {
-  for (size_t i = 0; i < _shaderIndex; ++i) {
-    if (strcmp(name, _shaders[i].name) == 0) {
-      return _shaders[i].program;
+ShaderProgram* Assets_GetShader(Assets *assets, const char* name) {
+  if (name == NULL) {
+    return NULL;
+  }
+  for (size_t i = 0; i < assets->shaderIndex; ++i) {
+    if (strcmp(name, assets->shaders[i].name) == 0) {
+      return assets->shaders[i].program;
     }
   }
   return NULL;
 }
 
-void Assets_UnloadShader(const char *name) {
-  for (size_t i = 0; i < _shaderIndex; ++i) {
-    if (strcmp(name, _shaders[i].name) == 0) {
-      ShaderDelete(_shaders[i].program);
-      _shaders[i].name = NULL;
-      _shaderIndex = i;
+void Assets_UnloadShader(Assets *assets, const char *name) {
+
+  for (size_t i = 0; i < assets->shaderIndex; ++i) {
+    if (strcmp(name, assets->shaders[i].name) == 0) {
+      ShaderProgram_Delete(assets->shaders[i].program);
+      assets->shaders[i].name = NULL;
+      assets->shaderIndex = i;
     }
   }
 }
 
-Texture2D *Assets_LoadTexture2D(const char *name, const char *path, bool alpha) {
-    while (_texture2DIndex < MAX_TEXTURES_2D && !_IsTexture2DEntryOpen(_texture2DIndex)) {
-    _texture2DIndex++;
+Texture2D *Assets_LoadTexture2D(Assets *assets, const char *name, const char *path, bool alpha) {
+  while (assets->texture2DIndex < MAX_TEXTURES_2D && !_IsTexture2DEntryOpen(assets, assets->texture2DIndex)) {
+    assets->texture2DIndex++;
   }
 
-  if (_texture2DIndex >= MAX_TEXTURES_2D) {
+  if (assets->texture2DIndex >= MAX_TEXTURES_2D) {
     printf("Unable to load new texture2D %s, MAX_TEXTURES_2D (%i) already loaded\n", name, MAX_TEXTURES_2D);
     return NULL;
   }
@@ -108,16 +141,28 @@ Texture2D *Assets_LoadTexture2D(const char *name, const char *path, bool alpha) 
   int nrChannels;
   uchar *data = stbi_load(path, &width, &height, &nrChannels, 0);
   Texture2D *texture = Texture2D_New(width, height, alpha, data);
-  _textures2D[_texture2DIndex++] = (Texture2DEntry) {.texture = texture, .name = name};
+  assets->textures2D[assets->texture2DIndex++] = (Texture2DEntry) {.texture = texture, .name = name};
   stbi_image_free(data);
 
   return texture;
 }
 
-static bool _IsShaderEntryOpen(uint i) {
-  return _shaders[i].name == NULL && _shaders[i].program == NULL;
+Texture2D* Assets_GetTexture2D(Assets *assets, const char* name) {
+  if (name == NULL) {
+    return NULL;
+  }
+  for (size_t i = 0; i < assets->texture2DIndex; ++i) {
+    if (strcmp(name, assets->textures2D[i].name) == 0) {
+      return assets->textures2D[i].texture;
+    }
+  }
+  return NULL;
 }
 
-static bool _IsTexture2DEntryOpen(uint i) {
-  return _textures2D[i].name == NULL && _textures2D[i].texture == NULL;
+static bool _IsShaderEntryOpen(Assets *assets, uint i) {
+  return assets->shaders[i].name == NULL && assets->shaders[i].program == NULL;
+}
+
+static bool _IsTexture2DEntryOpen(Assets *assets, uint i) {
+  return assets->textures2D[i].name == NULL && assets->textures2D[i].texture == NULL;
 }
