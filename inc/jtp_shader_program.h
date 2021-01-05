@@ -5,9 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <stdbool.h>
 
-typedef struct ShaderProgram {
-  uint id;
-} ShaderProgram;
+typedef struct ShaderProgram ShaderProgram;
 
 ShaderProgram* ShaderProgram_New(const char *vertCode, const char* fragCode);
 void ShaderProgram_Delete(ShaderProgram *program);

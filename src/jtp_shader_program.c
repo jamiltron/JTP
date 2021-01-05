@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include "glad/glad.h"
 
+struct ShaderProgram {
+  uint id;
+};
+
+
 ShaderProgram* ShaderProgram_New(const char *vertCode, const char *fragCode) {
   ShaderProgram* program = malloc(sizeof(ShaderProgram));
   uint vert = Shader_Compile(vertCode, GL_VERTEX_SHADER);
