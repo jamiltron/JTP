@@ -3,14 +3,19 @@
 
 static void _Texture2D_SetParameteri(Texture2D *texture, GLenum parameter, GLint value);
 
-Texture2D *Texture2D_New(uint width, uint height, uchar *data) {
+Texture2D *Texture2D_New(uint width, uint height, bool alpha, uchar *data) {
   Texture2D *texture = malloc(sizeof(Texture2D));
 
   glGenTextures(1, &texture->id);
   texture->width = width;
   texture->height = height;
-  texture->internalFormat = GL_RGB;
-  texture->imageFormat = GL_RGB;
+  if (bool) {
+    texture->internalFormat = GL_RGBA;
+    texture->imageFormat = GL_RGBA;
+  } else {
+    texture->internalFormat = GL_RGB;
+    texture->imageFormat = GL_RGB;
+  }
   texture->wrapS = GL_REPEAT;
   texture->wrapT = GL_REPEAT;
   texture->filterMin = GL_NEAREST;
@@ -31,7 +36,6 @@ Texture2D *Texture2D_New(uint width, uint height, uchar *data) {
 void Texture2D_Bind(Texture2D *texture) {
   glBindTexture(GL_TEXTURE_2D, texture->id);
 }
-
 
 void Texture2D_SetFilterMin(Texture2D *texture, uint filterMin) {
   texture->filterMin = filterMin;

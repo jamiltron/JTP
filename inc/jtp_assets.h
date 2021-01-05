@@ -4,6 +4,7 @@
 #include "jtp_texture2d.h"
 
 const char *Assets_ReadFile(const char *path);
+void Assets_Clear(void);
 
 // Shaders
 ShaderProgram *Assets_LoadShader(const char *name, const char *vertPath,

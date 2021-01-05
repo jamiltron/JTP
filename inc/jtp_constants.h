@@ -3,5 +3,6 @@
 
 #define INFO_LOG_LEN 512
 #define MAX_SHADERS 12
+#define MAX_TEXTURES_2D 100
 
 #endif
