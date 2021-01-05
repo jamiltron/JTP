@@ -80,7 +80,7 @@ float GetTime(void) {
 
 void WindowClose() {
   Assets_Clear(game.assets);
-  free(game.rendererShapes2D);
+  Shapes2D_RendererDelete(game.rendererShapes2D);
   glfwTerminate();
 }
 

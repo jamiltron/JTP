@@ -11,6 +11,7 @@ Assets *Assets_New(void);
 
 const char *Assets_ReadFile(const char *path);
 void Assets_Clear(Assets *assets);
+void Assets_Delete(Assets *assets);
 
 // Shaders
 ShaderProgram *Assets_LoadShader(Assets *assets, const char *name, const char *vertPath,

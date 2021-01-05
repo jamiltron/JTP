@@ -86,6 +86,11 @@ void Assets_Clear(Assets *assets) {
   }
 }
 
+void Assets_Delete(Assets *assets) {
+  Assets_Clear(assets);
+  free(assets);
+}
+
 ShaderProgram* Assets_LoadShader(Assets *assets, const char* name, const char* vertPath, const char* fragPath) {
   while (assets->shaderIndex < MAX_SHADERS && !_IsShaderEntryOpen(assets, assets->shaderIndex)) {
     assets->shaderIndex++;

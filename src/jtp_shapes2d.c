@@ -48,6 +48,10 @@ Shapes2D_Renderer* Shapes2D_RendererNew(ShaderProgram *shaderProgram) {
   return renderer;
 }
 
+void Shapes2D_RendererDelete(Shapes2D_Renderer* renderer) {
+  free(renderer);
+}
+
 void Shapes2D_DrawTriangle(Shapes2D_Renderer *renderer, Vec2 p1, Vec2 p2, Vec2 p3, Color color) {
   Mat4x4 projection = WindowProjection();
   Size windowSize = WindowSize();
