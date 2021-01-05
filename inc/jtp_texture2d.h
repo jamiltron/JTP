@@ -4,16 +4,7 @@
 #include "jtp_math.h"
 #include <stdbool.h>
 
-typedef struct Texture2D {
-  uint id;
-  uint width, height;
-  uint internalFormat;
-  uint imageFormat;
-  uint wrapS;
-  uint wrapT;
-  uint filterMin;
-  uint filterMag;
-} Texture2D;
+typedef struct Texture2D Texture2D;
 
 Texture2D *Texture2D_New(uint width, uint height, bool alpha, uchar *data);
 void Texture2D_Delete(Texture2D *texture);

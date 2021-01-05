@@ -1,6 +1,17 @@
 #include "jtp_texture2d.h"
 #include <stdlib.h>
 
+struct Texture2D {
+  uint id;
+  uint width, height;
+  uint internalFormat;
+  uint imageFormat;
+  uint wrapS;
+  uint wrapT;
+  uint filterMin;
+  uint filterMag;
+};
+
 static void _Texture2D_SetParameteri(Texture2D *texture, GLenum parameter, GLint value);
 
 Texture2D *Texture2D_New(uint width, uint height, bool alpha, uchar *data) {
