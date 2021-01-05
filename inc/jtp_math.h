@@ -2,6 +2,7 @@
 #define JTP_MATH_H
 
 typedef unsigned uint;
+typedef unsigned char uchar;
 
 typedef struct Color {
   float r, g, b, a;
