@@ -7,8 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void _InitRectRenderer(void);
-
 struct Shapes2D_Renderer {
   ShaderProgram *shaderProgram;
   uint projectionUniform;
