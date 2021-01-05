@@ -18,7 +18,7 @@ static ShaderEntry _shaders[MAX_SHADERS] = {NULL};
 
 static bool IsEntryOpen(uint i);
 
-const char *ReadFile(const char* path) {
+const char *Assets_ReadFile(const char* path) {
   FILE *file = NULL;
 #ifdef _WIN32
   errno_t err = fopen_s(&file, path, "rb");
@@ -46,7 +46,7 @@ const char *ReadFile(const char* path) {
   return string;
 }
 
-ShaderProgram* LoadShader(const char* name, const char* vertPath, const char* fragPath) {
+ShaderProgram* Assets_LoadShader(const char* name, const char* vertPath, const char* fragPath) {
   while (_entryIndex < MAX_SHADERS && !IsEntryOpen(_entryIndex)) {
     _entryIndex++;
   }
@@ -56,15 +56,15 @@ ShaderProgram* LoadShader(const char* name, const char* vertPath, const char* fr
     return NULL;
   }
 
-  const char* vertCode = ReadFile(vertPath);
-  const char* fragCode = ReadFile(fragPath);
+  const char* vertCode = Assets_ReadFile(vertPath);
+  const char* fragCode = Assets_ReadFile(fragPath);
 
   ShaderProgram* program = ShaderProgramNew(vertCode, fragCode);
   _shaders[_entryIndex++] = (ShaderEntry){ .program = program, .name = name };
   return program;
 }
 
-ShaderProgram* GetShader(const char* name) {
+ShaderProgram* Assets_GetShader(const char* name) {
   for (size_t i = 0; i < _entryIndex; ++i) {
     if (strcmp(name, _shaders[i].name) == 0) {
       return _shaders[i].program;
@@ -73,7 +73,7 @@ ShaderProgram* GetShader(const char* name) {
   return NULL;
 }
 
-void UnloadShader(const char *name) {
+void Assets_UnloadShader(const char *name) {
   for (size_t i = 0; i < _entryIndex; ++i) {
     if (strcmp(name, _shaders[i].name) == 0) {
       ShaderDelete(_shaders[i].program);
