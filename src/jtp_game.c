@@ -48,7 +48,7 @@ void WindowInit(uint width, uint height, const char* title) {
   glViewport(0, 0, 800, 600);
 
   game.assets = Assets_New();
-  game.defaultShader = Assets_LoadShader(game.assets, "default", "default.vert", "default.frag");
+  game.defaultShader = Assets_LoadShader(game.assets, "primitive", "primitive.vs", "primitive.fs");
   game.projection = Ortho(0.0, 800.0, 600.0, 0.0, -1.0, 1.0);
   game.rendererShapes2D = Shapes2D_RendererNew(game.defaultShader);
 }

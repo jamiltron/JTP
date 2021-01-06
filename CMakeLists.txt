@@ -44,17 +44,20 @@ target_link_libraries(jtp ${LIBS})
 include_directories(
   ${CMAKE_SOURCE_DIR}/inc
   ${CMAKE_SOURCE_DIR}/dep)
-file(GLOB SHADERS "res/shaders/*.vert"
-                  "res/shaders/*.frag"
-                  "res/shaders/*.geom"
-                  "res/config/*.nini") # not an actual shader I need to rewrite this
-foreach(SHADER ${SHADERS})
+
+# TODO: map actual directories over, I also probably need to do some filetype dependent handling
+file(GLOB RESOURCES
+  "res/shaders/*.vs"
+  "res/shaders/*.fs"
+  "res/shaders/*.gs"
+  "res/config/*.nini")
+foreach(RESOURCE ${RESOURCES})
   if(WIN32)
       add_custom_command(TARGET ${NAME} PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SHADER} $<TARGET_FILE_DIR:${NAME}>)
   elseif(UNIX AND NOT APPLE)
-      file(COPY ${SHADER} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+      file(COPY ${RESOURCES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
   elseif(APPLE)
-      get_filename_component(SHADERNAME ${SHADER} NAME)
-      makeLink(${SHADER} ${CMAKE_CURRENT_BINARY_DIR} ${NAME})
+      get_filename_component(RESOURCENAME ${RESOURCE} NAME)
+      makeLink(${RESOURCE} ${CMAKE_CURRENT_BINARY_DIR} ${NAME})
   endif(WIN32)
-endforeach(SHADER)
+endforeach(RESOURCE)
