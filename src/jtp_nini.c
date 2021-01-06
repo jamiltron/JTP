@@ -1,11 +1,12 @@
 #include "jtp_assets.h"
 #include "jtp_nini.h"
+#include "jtp_string.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-NiniToken* NiniTokenize(const char* source) {
+NiniToken* NiniTokenize(char* source) {
   NiniToken tokens[1024];
   int count = 0;
 
@@ -86,7 +87,7 @@ Nini* NiniNew(NiniToken* tokens, const char* name) {
     while (tablePtr->type != NiniTableToken) {
       ++tablePtr;
     }
-    char* tableName = (*tablePtr).value;
+    const char* tableName = (*tablePtr).value;
 
     // count the number of entries
     uint numEntries = 0;
@@ -116,11 +117,9 @@ Nini* NiniNew(NiniToken* tokens, const char* name) {
 
     entriesPtr = tablePtr+1;
     for (uint j = 0; j < numEntries; j++) {
-      char* key = entriesPtr[j*3].value;
-      char* strVal = entriesPtr[j*3+2].value;
-      printf("key: %s, val: %s\n", key, strVal);
+      const char* key = entriesPtr[j*3].value;
+      const char* strVal = entriesPtr[j*3+2].value;
 
-      //NiniValue *value = malloc(sizeof(NiniValue));
       NiniValue value;
       if (StringIsInteger(strVal)) {
         value.value.integer = atoi(strVal);
@@ -160,4 +159,3 @@ void NiniFree(Nini* nini) {
   }
   free(nini);
 }
-

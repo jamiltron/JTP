@@ -1,5 +1,6 @@
 #ifndef JTP_NINI_H
 #define JTP_NINI_H
+#include <stdbool.h>
 #include "jtp_math.h"
 
 typedef enum NiniTokenType {
@@ -25,13 +26,13 @@ typedef struct NiniValue {
   NiniEntryType entryType;
   union {
     int integer;
-    char* string;
+    const char* string;
     bool boolean;
   } value;
 } NiniValue;
 
 typedef struct NiniEntry {
-  char* key;
+  const char* key;
   NiniValue value;
 } NiniEntry;
 
@@ -47,7 +48,7 @@ typedef struct Nini {
   NiniTable** tables;
 } Nini;
 
-NiniToken* NiniTokenize(const char* source);
+NiniToken* NiniTokenize(char* source);
 Nini* NiniNew(NiniToken* tokens, const char* name);
 void NiniFree(Nini* nini);
 

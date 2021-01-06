@@ -44,7 +44,7 @@ char* StringRightTrim(const char* string, const char* chaff) {
 }
 
 bool StringContainsCharacter(const char* string, char character) {
-  if (string == NULL || character == NULL) {
+  if (string == NULL || character == '\0') {
     return false;
   }
 
